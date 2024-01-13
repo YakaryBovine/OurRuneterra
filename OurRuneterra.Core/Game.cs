@@ -22,9 +22,22 @@ public sealed class Game
   /// </summary>
   public void PlaceCard(Player placer, Placeable card)
   {
-    if (placer.CurrentMana < card.Cost)
+    if (placer.CurrentManaGems < card.Cost)
       throw new NotEnoughManaException(placer, card);
 
     PlacedCards.Add(card);
+  }
+
+  /// <summary>
+  /// Ends the current round and starts a new one, causing each player to draw a card, gain an additional mana gem, and refill their mana gems.
+  /// </summary>
+  public void StartNewRound()
+  {
+    foreach (var player in Players)
+    {
+      player.MaximumManaGems++;
+      player.RefillManaGems();
+      player.Draw();
+    }
   }
 }

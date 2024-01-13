@@ -12,8 +12,8 @@ public sealed class GameTests
     {
       Name = "TestPlayer",
       Id = 0,
-      MaximumMana = 10,
-      CurrentMana = 10
+      MaximumManaGems = 10,
+      CurrentManaGems = 10
     };
     game.Players.Add(testPlayer);
     var expensiveCard = new Unit("Expensive Card", 5, 5, 10, Region.Demacia)
@@ -32,8 +32,8 @@ public sealed class GameTests
     {
       Name = "TestPlayer",
       Id = 0,
-      MaximumMana = 1,
-      CurrentMana = 1
+      MaximumManaGems = 1,
+      CurrentManaGems = 1
     };
     game.Players.Add(testPlayer);
     var expensiveCard = new Unit("Expensive Card", 5, 5, 10, Region.Demacia)
@@ -43,5 +43,56 @@ public sealed class GameTests
     game.Invoking(x => x.PlaceCard(testPlayer, expensiveCard))
       .Should()
       .Throw<NotEnoughManaException>();
+  }
+
+  [Fact]
+  public void Round_Starting_Causes_Players_To_Refill_Mana_Gems()
+  {
+    var game = new Game();
+    var testPlayer = new Player
+    {
+      Name = "TestPlayer",
+      Id = 0,
+      MaximumManaGems = 5,
+      CurrentManaGems = 0,
+      Deck = { new Unit("TestCard", 1, 1, 1, Region.Demacia) }
+    };
+    game.Players.Add(testPlayer);
+    game.StartNewRound();
+    testPlayer.CurrentManaGems.Should().Be(testPlayer.MaximumManaGems);
+  }
+  
+  [Fact]
+  public void Round_Starting_Causes_Players_To_Gain_A_Mana_Gem()
+  {
+    var game = new Game();
+    var testPlayer = new Player
+    {
+      Name = "TestPlayer",
+      Id = 0,
+      MaximumManaGems = 5,
+      CurrentManaGems = 0,
+      Deck = { new Unit("TestCard", 1, 1, 1, Region.Demacia) }
+    };
+    game.Players.Add(testPlayer);
+    game.StartNewRound();
+    testPlayer.CurrentManaGems.Should().Be(6);
+  }
+  
+  [Fact]
+  public void Round_Starting_Causes_Players_To_Draw_A_Card()
+  {
+    var game = new Game();
+    var testPlayer = new Player
+    {
+      Name = "TestPlayer",
+      Id = 0,
+      MaximumManaGems = 5,
+      CurrentManaGems = 0,
+      Deck = { new Unit("TestCard", 1, 1, 1, Region.Demacia) }
+    };
+    game.Players.Add(testPlayer);
+    game.StartNewRound();
+    testPlayer.Hand.Should().HaveCount(1);
   }
 }

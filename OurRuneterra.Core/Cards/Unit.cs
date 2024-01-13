@@ -1,6 +1,6 @@
 ﻿using OurRuneterra.Core.Exceptions;
 
-namespace OurRuneterra.Core;
+namespace OurRuneterra.Core.Cards;
 
 /// <summary>
 /// A <see cref="Placeable"/> that can attack, block, and be damaged.

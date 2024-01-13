@@ -1,3 +1,4 @@
+using OurRuneterra.Core.Cards;
 using OurRuneterra.Core.Exceptions;
 
 namespace OurRuneterra.Core.Test;

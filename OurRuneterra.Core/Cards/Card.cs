@@ -1,4 +1,4 @@
-﻿namespace OurRuneterra.Core;
+﻿namespace OurRuneterra.Core.Cards;
 
 public abstract class Card
 {

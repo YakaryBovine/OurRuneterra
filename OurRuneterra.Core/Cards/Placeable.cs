@@ -1,4 +1,4 @@
-﻿namespace OurRuneterra.Core;
+﻿namespace OurRuneterra.Core.Cards;
 
 /// <summary>
 /// A card that can be placed on the board.

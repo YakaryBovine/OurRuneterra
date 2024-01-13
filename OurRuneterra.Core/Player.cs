@@ -1,4 +1,6 @@
-﻿namespace OurRuneterra.Core;
+﻿using OurRuneterra.Core.Cards;
+
+namespace OurRuneterra.Core;
 
 /// <summary>
 /// Someone who is playing a Legends of Runeterra <see cref="Game"/>.

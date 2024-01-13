@@ -1,4 +1,6 @@
-﻿namespace OurRuneterra.Core.Exceptions;
+﻿using OurRuneterra.Core.Cards;
+
+namespace OurRuneterra.Core.Exceptions;
 
 public sealed class NotEnoughManaException : Exception
 {

@@ -15,10 +15,10 @@ public sealed class Damage
   /// <summary>
   /// The unit doing the damaging.
   /// </summary>
-  public Unit Damager { get; set; }
+  public required Unit Damager { get; init; }
   
   /// <summary>
   /// The unit that will be damaged.
   /// </summary>
-  public Unit Victim { get; set; }
+  public required Unit Victim { get; set; }
 }

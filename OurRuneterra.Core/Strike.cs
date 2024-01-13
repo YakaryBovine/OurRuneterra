@@ -15,10 +15,10 @@ public sealed class Strike
   /// <summary>
   /// The unit doing the striking.
   /// </summary>
-  public Unit Striker { get; set; }
+  public required Unit Striker { get; init; }
   
   /// <summary>
   /// The unit that will be struck.
   /// </summary>
-  public Unit Victim { get; set; }
+  public required Unit Victim { get; set; }
 }

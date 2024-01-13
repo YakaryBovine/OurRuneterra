@@ -14,6 +14,6 @@ public abstract class Placeable : Card
   /// </summary>
   public void Kill(Card killer)
   {
-    throw new NotImplementedException();
+    
   }
 }

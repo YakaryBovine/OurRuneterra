@@ -1,4 +1,6 @@
-﻿namespace OurRuneterra.Core.Cards;
+﻿using OurRuneterra.Core.Keywords;
+
+namespace OurRuneterra.Core.Cards;
 
 public abstract class Card
 {
@@ -6,6 +8,11 @@ public abstract class Card
   
   public int Cost { get; }
 
+  /// <summary>
+  /// All <see cref="Keyword"/>s the unit currently has.
+  /// </summary>
+  public List<Keyword> Keywords = new();
+  
   public Card(string name, int cost)
   {
     Name = name;

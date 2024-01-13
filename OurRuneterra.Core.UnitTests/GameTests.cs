@@ -96,4 +96,29 @@ public sealed class GameTests
     game.StartNewRound();
     testPlayer.Hand.Should().HaveCount(1);
   }
+  
+  [Fact]
+  public void Striking_Reduces_Health_Equal_To_Strikers_Power()
+  {
+    var game = new Game();
+    var striker = new Unit("Cithria of Cloudfield", 2, 2, 1, Region.Demacia);
+    var victim = new Unit("Vanguard Lookout", 1, 4, 2, Region.Demacia);
+    
+    game.Strike(striker, victim);
+    
+    victim.CurrentHealth.Should().Be(2);
+  }
+  
+  [Fact]
+  public void Damaging_Reduces_Health_Equal_To_Damage()
+  {
+    //Arrange
+    var game = new Game();
+    var damager = new Unit("Cithria of Cloudfield", 2, 2, 1, Region.Demacia);
+    var victim = new Unit("Vanguard Lookout", 1, 4, 2, Region.Demacia);
+    
+    game.Damage(damager, victim, 1);
+    
+    victim.CurrentHealth.Should().Be(3);
+  }
 }

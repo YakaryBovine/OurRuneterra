@@ -1,7 +1,7 @@
 ﻿using OurRuneterra.Core.Cards;
 using OurRuneterra.Core.Exceptions;
 
-namespace OurRuneterra.Core.Test;
+namespace OurRuneterra.Core.Tests;
 
 public sealed class GameTests
 {

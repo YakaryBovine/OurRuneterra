@@ -6,7 +6,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9804A75E-764
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{EB9BF15E-6AE3-44FC-8645-36A43BDAECBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OurRuneterra.Core.Test", "OurRuneterra.Core.Test\OurRuneterra.Core.Test.csproj", "{765BC760-671D-4E08-AE6B-4FDEE9C823E2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OurRuneterra.Core.UnitTests", "OurRuneterra.Core.UnitTests\OurRuneterra.Core.UnitTests.csproj", "{765BC760-671D-4E08-AE6B-4FDEE9C823E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -5,16 +5,13 @@
 /// </summary>
 public sealed class Unit : Placeable
 {
-  public Unit(string name, int power, int maximumHealth, int cost, Region region) : base(cost)
+  public Unit(string name, int power, int maximumHealth, int cost, Region region) : base(name, cost)
   {
-    Name = name;
     Power = power;
     MaximumHealth = maximumHealth;
     Region = region;
     CurrentHealth = maximumHealth;
   }
-
-  public string Name { get; }
 
   public int Power { get; }
 

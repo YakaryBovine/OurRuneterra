@@ -2,10 +2,13 @@
 
 public abstract class Card
 {
+  public string Name { get; }
+  
   public int Cost { get; }
 
-  public Card(int cost)
+  public Card(string name, int cost)
   {
+    Name = name;
     Cost = cost;
   }
 }

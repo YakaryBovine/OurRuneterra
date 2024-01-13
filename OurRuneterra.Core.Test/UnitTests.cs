@@ -1,5 +1,3 @@
-using FluentAssertions;
-
 namespace OurRuneterra.Core.Test;
 
 public sealed class UnitTests

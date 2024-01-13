@@ -5,7 +5,7 @@
 /// </summary>
 public abstract class Placeable : Card
 {
-  protected Placeable(int cost) : base(cost)
+  protected Placeable(string name, int cost) : base(name, cost)
   {
   }
   

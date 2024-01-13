@@ -24,4 +24,24 @@ public sealed class KeywordTests
     
     victim.CurrentHealth.Should().Be(1);
   }
+
+  [Fact]
+  public void Regeneration_Unit_Heals_At_End_Of_Round()
+  {
+    var game = new Game();
+    var testPlayer = new Player
+    {
+      Name = "TestPlayer",
+      Id = 0
+    };
+    var regenerationUnit = new Unit("Cithria of Cloudfield", 2, 2, 0, Region.Demacia)
+    {
+      CurrentHealth = 1
+    };
+    regenerationUnit.Keywords.Add(new Regeneration());
+    game.PlaceCard(testPlayer, regenerationUnit);
+    game.EndRound();
+
+    regenerationUnit.CurrentHealth.Should().Be(2);
+  }
 }

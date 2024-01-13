@@ -59,7 +59,7 @@ public sealed class GameTests
       Deck = { new Unit("TestCard", 1, 1, 1, Region.Demacia) }
     };
     game.Players.Add(testPlayer);
-    game.StartNewRound();
+    game.EndRound();
     testPlayer.CurrentManaGems.Should().Be(testPlayer.MaximumManaGems);
   }
   
@@ -76,7 +76,7 @@ public sealed class GameTests
       Deck = { new Unit("TestCard", 1, 1, 1, Region.Demacia) }
     };
     game.Players.Add(testPlayer);
-    game.StartNewRound();
+    game.EndRound();
     testPlayer.CurrentManaGems.Should().Be(6);
   }
   
@@ -93,7 +93,7 @@ public sealed class GameTests
       Deck = { new Unit("TestCard", 1, 1, 1, Region.Demacia) }
     };
     game.Players.Add(testPlayer);
-    game.StartNewRound();
+    game.EndRound();
     testPlayer.Hand.Should().HaveCount(1);
   }
   

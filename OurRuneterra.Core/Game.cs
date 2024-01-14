@@ -12,27 +12,27 @@ public sealed class Game
   /// <summary>
   ///   The participants of the game, who can play cards and interact with them.
   /// </summary>
-  public List<Player> Players { get; } = new();
+  internal List<Player> Players { get; } = new();
 
   /// <summary>
   ///   Cards which have been placed on the game board.
   /// </summary>
-  public List<Placeable> Board { get; } = new();
+  internal List<Placeable> Board { get; } = new();
 
   /// <summary>
   ///   Invoked when a unit starts striking. The strike can be modified prior to completion.
   /// </summary>
-  public event EventHandler<Strike>? UnitStriking;
+  internal event EventHandler<Strike>? UnitStriking;
 
   /// <summary>
   ///   Invoked when a unit starts damaging. The damage can be modified prior to completion.
   /// </summary>
-  public event EventHandler<Damage>? UnitDamaging;
+  internal event EventHandler<Damage>? UnitDamaging;
 
   /// <summary>
   ///   Invoked when a round ends.
   /// </summary>
-  public event EventHandler? RoundEnded;
+  internal event EventHandler? RoundEnded;
 
   /// <summary>
   ///   Ends the current round, then starts a new one.
@@ -46,7 +46,7 @@ public sealed class Game
   /// <summary>
   ///   Places a card on the board.
   /// </summary>
-  public void PlaceCard(Player placer, Placeable card)
+  internal void PlaceCard(Player placer, Placeable card)
   {
     if (placer.CurrentManaGems < card.Cost)
       throw new NotEnoughManaException(placer, card);
@@ -75,7 +75,7 @@ public sealed class Game
   /// <summary>
   ///   Causes a <see cref="Unit" /> to strike another, dealing damage equal to the striker's power.
   /// </summary>
-  public void Strike(Unit striker, Unit victim)
+  internal void Strike(Unit striker, Unit victim)
   {
     var strike = new Strike
     {
@@ -92,7 +92,7 @@ public sealed class Game
   /// <summary>
   ///   Causes a <see cref="Unit" /> to damage another <see cref="Unit" />.
   /// </summary>
-  public void Damage(IDamager damager, IDamageable victim, int amount)
+  internal void Damage(IDamager damager, IDamageable victim, int amount)
   {
     var damage = new Damage
     {

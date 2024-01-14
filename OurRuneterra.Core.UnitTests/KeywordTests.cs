@@ -17,6 +17,8 @@ public sealed class KeywordTests
     var damager = new Unit("Cithria of Cloudfield", 2, 2, 0, Region.Demacia);
     var victim = new Unit("Vanguard Defender", 2, 2, 0, Region.Demacia);
     victim.Keywords.Add(new Tough());
+    testPlayer.Hand.Add(damager);
+    testPlayer.Hand.Add(victim);
     game.PlaceCard(testPlayer, damager);
     game.PlaceCard(testPlayer, victim);
     
@@ -39,6 +41,7 @@ public sealed class KeywordTests
       CurrentHealth = 1
     };
     regenerationUnit.Keywords.Add(new Regeneration());
+    testPlayer.Hand.Add(regenerationUnit);
     game.PlaceCard(testPlayer, regenerationUnit);
     game.EndRound();
 

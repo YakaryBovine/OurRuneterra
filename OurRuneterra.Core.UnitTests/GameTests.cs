@@ -17,12 +17,46 @@ public sealed class GameTests
       CurrentManaGems = 10
     };
     game.Players.Add(testPlayer);
-    var expensiveCard = new Unit("Expensive Card", 5, 5, 10, Region.Demacia)
-    {
-      CurrentHealth = 0
-    };
+    var expensiveCard = new Unit("Expensive Card", 5, 5, 10, Region.Demacia);
+    testPlayer.Hand.Add(expensiveCard);
     game.PlaceCard(testPlayer, expensiveCard);
-    game.PlacedCards.Should().Contain(expensiveCard);
+    game.Board.Should().Contain(expensiveCard);
+  }
+
+  [Fact]
+  public void Placing_Card_Removes_Card_From_Hand()
+  {
+    var game = new Game();
+    var testPlayer = new Player
+    {
+      Name = "TestPlayer",
+      Id = 0,
+      MaximumManaGems = 1,
+      CurrentManaGems = 1
+    };
+    game.Players.Add(testPlayer);
+    var testCard = new Unit("Testcard", 1, 1, 1, Region.Demacia);
+    testPlayer.Hand.Add(testCard);
+    game.PlaceCard(testPlayer, testCard);
+
+    testPlayer.Hand.Should().NotContain(testCard);
+  }
+
+  [Fact]
+  public void Cards_Cant_Be_Placed_From_Outside_Hand()
+  {
+    var game = new Game();
+    var testPlayer = new Player
+    {
+      Name = "TestPlayer",
+      Id = 0,
+      MaximumManaGems = 1,
+      CurrentManaGems = 1
+    };
+    game.Players.Add(testPlayer);
+    var testCard = new Unit("Testcard", 1, 1, 1, Region.Demacia);
+
+    game.Invoking(x => x.PlaceCard(testPlayer, testCard)).Should().Throw<MustPlayFromHandException>();
   }
 
   [Fact]
@@ -112,7 +146,6 @@ public sealed class GameTests
   [Fact]
   public void Damaging_Reduces_Health_Equal_To_Damage()
   {
-    //Arrange
     var game = new Game();
     var damager = new Unit("Cithria of Cloudfield", 2, 2, 1, Region.Demacia);
     var victim = new Unit("Vanguard Lookout", 1, 4, 2, Region.Demacia);

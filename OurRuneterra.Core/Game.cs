@@ -17,7 +17,7 @@ public sealed class Game
   /// <summary>
   ///   Cards which have been placed on the game board.
   /// </summary>
-  public List<Placeable> PlacedCards { get; } = new();
+  public List<Placeable> Board { get; } = new();
 
   /// <summary>
   ///   Invoked when a unit starts striking. The strike can be modified prior to completion.
@@ -51,10 +51,14 @@ public sealed class Game
     if (placer.CurrentManaGems < card.Cost)
       throw new NotEnoughManaException(placer, card);
 
+    if (!placer.Hand.Contains(card))
+      throw new MustPlayFromHandException(card);
+    
     foreach (var keyword in card.Keywords)
       keyword.OnPlayed(this, card);
 
-    PlacedCards.Add(card);
+    placer.Hand.Remove(card);
+    Board.Add(card);
   }
 
   /// <summary>

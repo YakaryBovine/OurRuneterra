@@ -38,6 +38,15 @@ public sealed class Player
   public List<Card> Deck { get; } = new();
 
   /// <summary>
+  /// A damageable entity that, when reduced to 0 hit points, defeats the player.
+  /// </summary>
+  public Nexus Nexus { get; set; } = new()
+  {
+    CurrentHealth = 20,
+    MaximumHealth = 20
+  };
+
+  /// <summary>
   /// The player refills all of their mana gems. Mana gems can be used to play cards.
   /// </summary>
   public void RefillManaGems()

@@ -1,4 +1,5 @@
-﻿using OurRuneterra.Core.Cards;
+﻿using OurRuneterra.Core.Behaviours;
+using OurRuneterra.Core.Cards;
 using OurRuneterra.Core.Exceptions;
 
 namespace OurRuneterra.Core;
@@ -57,6 +58,17 @@ public sealed class Game
   }
 
   /// <summary>
+  /// Casts a spell.
+  /// </summary>
+  public void Cast(Player player, Spell spell, List<IDamageable> targets)
+  {
+    if (player.CurrentManaGems < spell.Cost)
+      throw new NotEnoughManaException(player, spell);
+      
+    spell.Cast(this, player, spell, targets);
+  }
+
+  /// <summary>
   ///   Causes a <see cref="Unit" /> to strike another, dealing damage equal to the striker's power.
   /// </summary>
   public void Strike(Unit striker, Unit victim)
@@ -76,7 +88,7 @@ public sealed class Game
   /// <summary>
   ///   Causes a <see cref="Unit" /> to damage another <see cref="Unit" />.
   /// </summary>
-  public void Damage(Unit damager, Unit victim, int amount)
+  public void Damage(IDamager damager, IDamageable victim, int amount)
   {
     var damage = new Damage
     {

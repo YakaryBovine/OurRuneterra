@@ -1,4 +1,4 @@
-﻿using OurRuneterra.Core.Cards;
+﻿using OurRuneterra.Core.Behaviours;
 
 namespace OurRuneterra.Core;
 
@@ -13,12 +13,12 @@ public sealed class Damage
   public required int Amount { get; set; }
   
   /// <summary>
-  /// The unit doing the damaging.
+  /// The thing doing the damaging.
   /// </summary>
-  public required Unit Damager { get; init; }
+  public required IDamager Damager { get; init; }
   
   /// <summary>
-  /// The unit that will be damaged.
+  /// The thing that will be damaged.
   /// </summary>
-  public required Unit Victim { get; set; }
+  public required IDamageable Victim { get; set; }
 }

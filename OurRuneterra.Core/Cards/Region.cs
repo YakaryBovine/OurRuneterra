@@ -2,5 +2,6 @@
 
 public enum Region
 {
-  Demacia
+  Demacia,
+  Noxus
 }

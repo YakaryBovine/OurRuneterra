@@ -11,11 +11,14 @@ public abstract class Card
   /// <summary>
   /// All <see cref="Keyword"/>s the unit currently has.
   /// </summary>
-  public List<Keyword> Keywords = new();
+  public List<Keyword> Keywords { get; } = new();
   
-  public Card(string name, int cost)
+  public Region Region { get; }
+  
+  public Card(string name, int cost, Region region)
   {
     Name = name;
     Cost = cost;
+    Region = region;
   }
 }

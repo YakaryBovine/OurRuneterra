@@ -11,7 +11,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="FluentAssertions" Version="7.0.0-alpha.3" />
+        <PackageReference Include="FluentAssertions" Version="7.0.0-alpha.3"/>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0"/>
         <PackageReference Include="xunit" Version="2.4.2"/>
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
@@ -25,8 +25,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\OurRuneterra.Core\OurRuneterra.Core.csproj" />
+        <ProjectReference Include="..\OurRuneterra.Core\OurRuneterra.Core.csproj"/>
     </ItemGroup>
-
-
+    
 </Project>

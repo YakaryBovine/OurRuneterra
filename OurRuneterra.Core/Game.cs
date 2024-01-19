@@ -120,6 +120,15 @@ public sealed class Game
   }
   
   /// <summary>
+  /// Creates a card directly in the player's hand.
+  /// </summary>
+  internal void CreateInHand(Player player, Card card)
+  {
+    card.Initialize(this);
+    player.Hand.Add(card);
+  }
+  
+  /// <summary>
   ///   Causes a <see cref="Unit" /> to strike another, dealing damage equal to the striker's power.
   /// </summary>
   internal void Strike(Unit striker, Unit victim)

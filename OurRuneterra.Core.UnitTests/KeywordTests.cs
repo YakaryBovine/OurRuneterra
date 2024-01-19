@@ -1,4 +1,5 @@
-﻿using OurRuneterra.Core.Cards;
+﻿using OurRuneterra.Core.Behaviours;
+using OurRuneterra.Core.Cards;
 using OurRuneterra.Core.Keywords;
 using OurRuneterra.Core.Tests.TestHelpers;
 
@@ -10,18 +11,19 @@ public sealed class KeywordTests
   public void Tough_Unit_Takes_One_Less_Damage()
   {
     var game = Utils.StartSimpleGame();
-    var damager = new Unit("Cithria of Cloudfield", 2, 2, 0, Region.Demacia);
-    var victim = new Unit("Vanguard Defender", 2, 2, 0, Region.Demacia);
-    victim.PassiveEffects.Add(new Tough());
     var testPlayer = game.Players.First();
-    testPlayer.Hand.Add(damager);
-    testPlayer.Hand.Add(victim);
-    game.PlaceCard(testPlayer, damager);
-    game.PlaceCard(testPlayer, victim);
-    
-    game.Damage(damager, victim, 2);
-    
-    victim.CurrentHealth.Should().Be(1);
+    var damager = game.Summon(testPlayer, new Unit("Cithria of Cloudfield", 2, 2, 0, Region.Demacia)) as Unit;
+    var victim = game.Summon(testPlayer, new Unit("Vanguard Defender", 2, 2, 0, Region.Demacia)
+    {
+      PassiveEffects = new List<PassiveEffect>
+      {
+        new Tough()
+      }
+    }) as Unit;
+
+    game.Damage(damager!, victim!, 2);
+
+    victim!.CurrentHealth.Should().Be(1);
   }
 
   [Fact]

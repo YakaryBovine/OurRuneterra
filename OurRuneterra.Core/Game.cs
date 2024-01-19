@@ -82,12 +82,9 @@ public sealed class Game
 
     if (!placer.Hand.Contains(card))
       throw new MustPlayFromHandException(card);
-    
-    foreach (var (placeable, summonAction) in _onSummonedActions)
-      summonAction.Invoke(new PlaceableSummonedParams(placeable, placer));
-
+      
     placer.Hand.Remove(card);
-    Board.Add(card);
+    Summon(placer, card);
   }
 
   /// <summary>
@@ -107,22 +104,19 @@ public sealed class Game
   }
 
   /// <summary>
-  /// Registers an action to occur when a particular <see cref="Placeable"/> is placed on the board.
+  /// Summons a <see cref="Placeable"/> straight to the board.
   /// </summary>
-  internal void RegisterOnSummonedAction(Placeable placeable, Action<PlaceableSummonedParams> onSummoned) =>
-    _onSummonedActions.Add(placeable, onSummoned);
+  internal Placeable Summon(Player summoner, Placeable cardToSummon)
+  {
+    foreach (var (_, summonAction) in _onSummonedActions)
+      summonAction.Invoke(new PlaceableSummonedParams(cardToSummon, summoner));
+    
+    Board.Add(cardToSummon);
+    cardToSummon.Initialize(this);
 
-  /// <summary>
-  /// Registers an actions to occur for the provided card every time a round ends.
-  /// </summary>
-  internal void RegisterOnRoundEndedAction(Card card, Action action) => _onRoundEndedActions.Add(card, action);
-
-  /// <summary>
-  /// Registers an action to occur whenever the provided card is about to take damage.
-  /// </summary>
-  public void RegisterOnUnitTakingDamageAction(Unit effectHolder, Action<Damage> action) =>
-    _onUnitTakingDamageActions.Add(effectHolder, action);
-
+    return cardToSummon;
+  }
+  
   /// <summary>
   ///   Causes a <see cref="Unit" /> to strike another, dealing damage equal to the striker's power.
   /// </summary>
@@ -157,6 +151,23 @@ public sealed class Game
     if (victim.CurrentHealth == 0)
       victim.Kill(damager);
   }
+  
+  /// <summary>
+  /// Registers an action to occur when a particular <see cref="Placeable"/> is placed on the board.
+  /// </summary>
+  internal void RegisterOnSummonedAction(Placeable placeable, Action<PlaceableSummonedParams> onSummoned) =>
+    _onSummonedActions.Add(placeable, onSummoned);
+
+  /// <summary>
+  /// Registers an actions to occur for the provided card every time a round ends.
+  /// </summary>
+  internal void RegisterOnRoundEndedAction(Card card, Action action) => _onRoundEndedActions.Add(card, action);
+
+  /// <summary>
+  /// Registers an action to occur whenever the provided card is about to take damage.
+  /// </summary>
+  public void RegisterOnUnitTakingDamageAction(Unit effectHolder, Action<Damage> action) =>
+    _onUnitTakingDamageActions.Add(effectHolder, action);
   
   /// <summary>
   ///   Ends the current round and starts a new one, causing each player to draw a card, gain an additional mana gem, and

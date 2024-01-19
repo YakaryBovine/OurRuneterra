@@ -29,6 +29,7 @@ public abstract class Card
 
   /// <summary>
   /// Initialize the card, allowing it to perform any initialization logic it needs.
+  /// <para>Should only be run once, and only when the game starts.</para>
   /// </summary>
   internal void Initialize(Game game)
   {

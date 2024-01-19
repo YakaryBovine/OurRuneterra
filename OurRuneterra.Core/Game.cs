@@ -13,7 +13,7 @@ public sealed class Game
   /// <summary>
   /// The state the game is currently in, which restricts the operations that can be called on it.
   /// </summary>
-  public GameState State { get; set; } = GameState.NotStarted;
+  public GameState State { get; private set; } = GameState.NotStarted;
   
   /// <summary>
   /// The player whos turn it currently is. Only the turn player can take actions.
@@ -29,19 +29,11 @@ public sealed class Game
   ///   Cards which have been placed on the game board.
   /// </summary>
   internal List<Placeable> Board { get; } = new();
-
-  /// <summary>
-  ///   Invoked when a unit starts damaging. The damage can be modified prior to completion.
-  /// </summary>
-  internal event EventHandler<Damage>? UnitDamaging;
-
-  /// <summary>
-  ///   Invoked when a round ends.
-  /// </summary>
-  internal event EventHandler? RoundEnded;
     
-  private readonly Dictionary<Placeable, Action<PlaceableSummonedParams>> _onSummonedTriggers = new();
-  
+  private readonly Dictionary<Placeable, Action<PlaceableSummonedParams>> _onSummonedActions = new();
+  private readonly Dictionary<Card, Action> _onRoundEndedActions = new();
+  private readonly Dictionary<Card, Action<Damage>> _onUnitTakingDamageActions = new();
+
   /// <summary>
   /// Starts the game, allowing it to be played.
   /// </summary>
@@ -69,7 +61,9 @@ public sealed class Game
     if (endingPlayer != TurnPlayer)
       throw new NotPlayersTurnException(endingPlayer);
     
-    RoundEnded?.Invoke(this, EventArgs.Empty);
+    foreach (var (_, roundedEndedAction) in _onRoundEndedActions)
+      roundedEndedAction.Invoke();
+
     StartRound();
   }
 
@@ -89,11 +83,8 @@ public sealed class Game
     if (!placer.Hand.Contains(card))
       throw new MustPlayFromHandException(card);
     
-    foreach (var (placeable, summonAction) in _onSummonedTriggers)
+    foreach (var (placeable, summonAction) in _onSummonedActions)
       summonAction.Invoke(new PlaceableSummonedParams(placeable, placer));
-    
-    foreach (var keyword in card.Keywords)
-      keyword.OnPlayed(this, card);
 
     placer.Hand.Remove(card);
     Board.Add(card);
@@ -118,11 +109,20 @@ public sealed class Game
   /// <summary>
   /// Registers an action to occur when a particular <see cref="Placeable"/> is placed on the board.
   /// </summary>
-  internal void RegisterOnSummonedAction(Placeable placeable, Action<PlaceableSummonedParams> onSummoned)
-  {
-    _onSummonedTriggers.Add(placeable, onSummoned);
-  }
-  
+  internal void RegisterOnSummonedAction(Placeable placeable, Action<PlaceableSummonedParams> onSummoned) =>
+    _onSummonedActions.Add(placeable, onSummoned);
+
+  /// <summary>
+  /// Registers an actions to occur for the provided card every time a round ends.
+  /// </summary>
+  internal void RegisterOnRoundEndedAction(Card card, Action action) => _onRoundEndedActions.Add(card, action);
+
+  /// <summary>
+  /// Registers an action to occur whenever the provided card is about to take damage.
+  /// </summary>
+  public void RegisterOnUnitTakingDamageAction(Unit effectHolder, Action<Damage> action) =>
+    _onUnitTakingDamageActions.Add(effectHolder, action);
+
   /// <summary>
   ///   Causes a <see cref="Unit" /> to strike another, dealing damage equal to the striker's power.
   /// </summary>
@@ -150,7 +150,8 @@ public sealed class Game
       Victim = victim
     };
 
-    UnitDamaging?.Invoke(this, damage);
+    foreach (var (_, unitTakingDamageAction) in _onUnitTakingDamageActions)
+      unitTakingDamageAction.Invoke(damage);
 
     victim.CurrentHealth -= damage.Amount;
     if (victim.CurrentHealth == 0)

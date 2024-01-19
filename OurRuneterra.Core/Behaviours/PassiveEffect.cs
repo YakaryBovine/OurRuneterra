@@ -11,5 +11,5 @@ public abstract class PassiveEffect
   /// Invoked when a card with the <see cref="PassiveEffect"/> is initialized at the start of a game,
   /// or when the effect is added to a card mid-game.
   /// </summary>
-  public abstract void OnInitialized(Game game, Card card);
+  public abstract void OnInitialized(Game game, Card effectHolder);
 }

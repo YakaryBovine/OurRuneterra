@@ -12,7 +12,7 @@ public sealed class KeywordTests
     var game = Utils.StartSimpleGame();
     var damager = new Unit("Cithria of Cloudfield", 2, 2, 0, Region.Demacia);
     var victim = new Unit("Vanguard Defender", 2, 2, 0, Region.Demacia);
-    victim.Keywords.Add(new Tough());
+    victim.PassiveEffects.Add(new Tough());
     var testPlayer = game.Players.First();
     testPlayer.Hand.Add(damager);
     testPlayer.Hand.Add(victim);
@@ -32,10 +32,11 @@ public sealed class KeywordTests
     {
       CurrentHealth = 1
     };
-    regenerationUnit.Keywords.Add(new Regeneration());
+    regenerationUnit.PassiveEffects.Add(new Regeneration());
     var testPlayer = game.Players.First();
     testPlayer.Hand.Add(regenerationUnit);
     game.PlaceCard(testPlayer, regenerationUnit);
+    
     game.EndRound(testPlayer);
 
     regenerationUnit.CurrentHealth.Should().Be(2);

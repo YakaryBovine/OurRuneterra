@@ -35,12 +35,12 @@ public sealed class Player
   /// <summary>
   /// The cards in the player's deck. Each round the player adds one card to their hand from the top of their deck.
   /// </summary>
-  public List<Card> Deck { get; } = new();
+  public List<Card> Deck { get; init; } = new();
 
   /// <summary>
   /// A damageable entity that, when reduced to 0 hit points, defeats the player.
   /// </summary>
-  public Nexus Nexus { get; set; } = new()
+  public Nexus Nexus { get; } = new()
   {
     CurrentHealth = 20,
     MaximumHealth = 20

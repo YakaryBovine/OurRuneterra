@@ -1,5 +1,6 @@
 ﻿using OurRuneterra.Core.Cards;
 using OurRuneterra.Core.Exceptions;
+using OurRuneterra.Core.Tests.TestHelpers;
 
 namespace OurRuneterra.Core.Tests;
 
@@ -8,35 +9,26 @@ public sealed class GameTests
   [Fact]
   public void Player_With_Enough_Mana_Can_Place_Card()
   {
-    var game = new Game();
-    var testPlayer = new Player
-    {
-      Name = "TestPlayer",
-      Id = 0,
-      MaximumManaGems = 10,
-      CurrentManaGems = 10
-    };
-    game.Players.Add(testPlayer);
+    var game = Utils.StartSimpleGame();
+    var testPlayer = game.Players.First();
+    testPlayer.MaximumManaGems = 10;
+    testPlayer.CurrentManaGems = 10;
     var expensiveCard = new Unit("Expensive Card", 5, 5, 10, Region.Demacia);
     testPlayer.Hand.Add(expensiveCard);
+    
     game.PlaceCard(testPlayer, expensiveCard);
+    
     game.Board.Should().Contain(expensiveCard);
   }
 
   [Fact]
   public void Placing_Card_Removes_Card_From_Hand()
   {
-    var game = new Game();
-    var testPlayer = new Player
-    {
-      Name = "TestPlayer",
-      Id = 0,
-      MaximumManaGems = 1,
-      CurrentManaGems = 1
-    };
-    game.Players.Add(testPlayer);
+    var game = Utils.StartSimpleGame();
+    var testPlayer = game.Players.First();
     var testCard = new Unit("Testcard", 1, 1, 1, Region.Demacia);
     testPlayer.Hand.Add(testCard);
+    
     game.PlaceCard(testPlayer, testCard);
 
     testPlayer.Hand.Should().NotContain(testCard);
@@ -45,15 +37,8 @@ public sealed class GameTests
   [Fact]
   public void Cards_Cant_Be_Placed_From_Outside_Hand()
   {
-    var game = new Game();
-    var testPlayer = new Player
-    {
-      Name = "TestPlayer",
-      Id = 0,
-      MaximumManaGems = 1,
-      CurrentManaGems = 1
-    };
-    game.Players.Add(testPlayer);
+    var game = Utils.StartSimpleGame();
+    var testPlayer = game.Players.First();
     var testCard = new Unit("Testcard", 1, 1, 1, Region.Demacia);
 
     game.Invoking(x => x.PlaceCard(testPlayer, testCard)).Should().Throw<MustPlayFromHandException>();
@@ -62,19 +47,10 @@ public sealed class GameTests
   [Fact]
   public void Player_With_Insufficient_Mana_Cannot_Place_Card()
   {
-    var game = new Game();
-    var testPlayer = new Player
-    {
-      Name = "TestPlayer",
-      Id = 0,
-      MaximumManaGems = 1,
-      CurrentManaGems = 1
-    };
-    game.Players.Add(testPlayer);
-    var expensiveCard = new Unit("Expensive Card", 5, 5, 10, Region.Demacia)
-    {
-      CurrentHealth = 0
-    };
+    var game = Utils.StartSimpleGame();
+    var testPlayer = game.Players.First();
+    var expensiveCard = new Unit("Expensive Card", 5, 5, 10, Region.Demacia);
+    
     game.Invoking(x => x.PlaceCard(testPlayer, expensiveCard))
       .Should()
       .Throw<NotEnoughManaException>();
@@ -83,51 +59,38 @@ public sealed class GameTests
   [Fact]
   public void Round_Starting_Causes_Players_To_Refill_Mana_Gems()
   {
-    var game = new Game();
-    var testPlayer = new Player
-    {
-      Name = "TestPlayer",
-      Id = 0,
-      MaximumManaGems = 5,
-      CurrentManaGems = 0,
-      Deck = { new Unit("TestCard", 1, 1, 1, Region.Demacia) }
-    };
-    game.Players.Add(testPlayer);
-    game.EndRound();
+    var game = Utils.StartSimpleGame();
+    var testPlayer = game.Players.First();
+    testPlayer.MaximumManaGems = 5;
+    testPlayer.Deck.Add(new Unit("TestCard", 1, 1, 1, Region.Demacia));
+    
+    game.EndRound(testPlayer);
+    
     testPlayer.CurrentManaGems.Should().Be(testPlayer.MaximumManaGems);
   }
   
   [Fact]
   public void Round_Starting_Causes_Players_To_Gain_A_Mana_Gem()
   {
-    var game = new Game();
-    var testPlayer = new Player
-    {
-      Name = "TestPlayer",
-      Id = 0,
-      MaximumManaGems = 5,
-      CurrentManaGems = 0,
-      Deck = { new Unit("TestCard", 1, 1, 1, Region.Demacia) }
-    };
-    game.Players.Add(testPlayer);
-    game.EndRound();
+    var game = Utils.StartSimpleGame();
+    var testPlayer = game.Players.First();
+    testPlayer.MaximumManaGems = 5;
+    
+    game.EndRound(testPlayer);
+    
     testPlayer.CurrentManaGems.Should().Be(6);
   }
   
   [Fact]
   public void Round_Starting_Causes_Players_To_Draw_A_Card()
   {
-    var game = new Game();
-    var testPlayer = new Player
-    {
-      Name = "TestPlayer",
-      Id = 0,
-      MaximumManaGems = 5,
-      CurrentManaGems = 0,
-      Deck = { new Unit("TestCard", 1, 1, 1, Region.Demacia) }
-    };
-    game.Players.Add(testPlayer);
-    game.EndRound();
+    var game = Utils.StartSimpleGame();
+    var testPlayer = game.Players.First();
+    testPlayer.MaximumManaGems = 5;
+    testPlayer.Deck.Add(new Unit("TestCard", 1, 1, 1, Region.Demacia));
+
+    game.EndRound(testPlayer);
+    
     testPlayer.Hand.Should().HaveCount(1);
   }
   

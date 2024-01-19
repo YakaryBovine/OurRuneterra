@@ -10,6 +10,16 @@ namespace OurRuneterra.Core;
 public sealed class Game
 {
   /// <summary>
+  /// The state the game is currently in, which restricts the operations that can be called on it.
+  /// </summary>
+  public GameState State { get; set; } = GameState.NotStarted;
+  
+  /// <summary>
+  /// The player whos turn it currently is. Only the turn player can take actions.
+  /// </summary>
+  public Player? TurnPlayer { get; private set; }
+  
+  /// <summary>
   ///   The participants of the game, who can play cards and interact with them.
   /// </summary>
   internal List<Player> Players { get; } = new();
@@ -18,7 +28,7 @@ public sealed class Game
   ///   Cards which have been placed on the game board.
   /// </summary>
   internal List<Placeable> Board { get; } = new();
-
+  
   /// <summary>
   ///   Invoked when a unit starts striking. The strike can be modified prior to completion.
   /// </summary>
@@ -35,10 +45,32 @@ public sealed class Game
   internal event EventHandler? RoundEnded;
 
   /// <summary>
+  /// Starts the game, allowing it to be played.
+  /// </summary>
+  /// <param name="players">All players participating in the game.</param>
+  public void Start(IEnumerable<Player> players)
+  {
+    ThrowIfNotState(GameState.NotStarted);
+    
+    Players.AddRange(players);
+    foreach (var player in Players) 
+      player.CurrentManaGems = 1;
+    
+    TurnPlayer = Players.First();
+
+    State = GameState.InProgress;
+  }
+
+  /// <summary>
   ///   Ends the current round, then starts a new one.
   /// </summary>
-  public void EndRound()
+  public void EndRound(Player endingPlayer)
   {
+    ThrowIfNotState(GameState.InProgress);
+    
+    if (endingPlayer != TurnPlayer)
+      throw new NotPlayersTurnException(endingPlayer);
+    
     RoundEnded?.Invoke(this, EventArgs.Empty);
     StartRound();
   }
@@ -46,8 +78,13 @@ public sealed class Game
   /// <summary>
   ///   Places a card on the board.
   /// </summary>
-  internal void PlaceCard(Player placer, Placeable card)
+  public void PlaceCard(Player placer, Placeable card)
   {
+    ThrowIfNotState(GameState.InProgress);
+    
+    if (placer != TurnPlayer)
+      throw new NotPlayersTurnException(placer);
+    
     if (placer.CurrentManaGems < card.Cost)
       throw new NotEnoughManaException(placer, card);
 
@@ -66,6 +103,11 @@ public sealed class Game
   /// </summary>
   public void Cast(Player player, Spell spell, List<IDamageable> targets)
   {
+    ThrowIfNotState(GameState.InProgress);
+    
+    if (player != TurnPlayer)
+      throw new NotPlayersTurnException(player);
+    
     if (player.CurrentManaGems < spell.Cost)
       throw new NotEnoughManaException(player, spell);
       
@@ -120,5 +162,11 @@ public sealed class Game
       player.RefillManaGems();
       player.Draw();
     }
+  }
+
+  private void ThrowIfNotState(GameState requiredState)
+  {
+    if (State != requiredState)
+      throw new WrongGameStateException(requiredState, State);
   }
 }

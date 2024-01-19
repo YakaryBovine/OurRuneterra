@@ -1,4 +1,5 @@
 ﻿using OurRuneterra.Core.Behaviours;
+using OurRuneterra.Core.Exceptions;
 
 namespace OurRuneterra.Core.Cards;
 
@@ -14,6 +15,9 @@ public abstract class Card
   public List<PassiveEffect> PassiveEffects { get; init; } = new();
   
   public Region Region { get; }
+  
+  /// <summary>If true, the card has been initialized and is ready to be used in a game.</summary>
+  public bool Initialized { get; private set; }
 
   protected Card(string name, int cost, Region region)
   {
@@ -33,7 +37,12 @@ public abstract class Card
   /// </summary>
   internal void Initialize(Game game)
   {
+    if (Initialized)
+      throw new CardAlreadyInitialized(this);
+    
     foreach (var passiveEffect in PassiveEffects)
       passiveEffect.OnInitialized(game, this);
+
+    Initialized = true;
   }
 }

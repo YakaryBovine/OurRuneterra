@@ -162,6 +162,23 @@ public sealed class Game
     if (victim.CurrentHealth == 0)
       victim.Kill(damager);
   }
+
+  /// <summary>
+  /// Indicates where a <see cref="Card"/> is in the game.
+  /// </summary>
+  internal CardLocation GetCardLocation(Card card)
+  {
+    if (Players.SelectMany(x => x.Deck).Contains(card))
+      return CardLocation.Deck;
+    
+    if (Players.SelectMany(x => x.Hand).Contains(card))
+      return CardLocation.Hand;
+
+    if (Board.Contains(card))
+      return CardLocation.Board;
+
+    return CardLocation.Nowhere;
+  }
   
   /// <summary>
   /// Registers an action to occur when a particular <see cref="Placeable"/> is placed on the board.

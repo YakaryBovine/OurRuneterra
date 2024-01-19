@@ -15,11 +15,11 @@ public sealed class Regeneration : Keyword
 
   /// <inheritdoc/>
   public override void OnInitialized(Game game, Card effectHolder) =>
-    game.RegisterOnRoundEndedAction(effectHolder, () => OnRoundEnded(effectHolder));
+    game.RegisterOnRoundEndedAction(effectHolder, () => OnRoundEnded(game, effectHolder));
 
-  private static void OnRoundEnded(Card holder)
+  private static void OnRoundEnded(Game game, Card holder)
   {
-    if (holder is Unit holdingUnit) 
+    if (holder is Unit holdingUnit && game.GetCardLocation(holdingUnit) == CardLocation.Board)
       holdingUnit.CurrentHealth = holdingUnit.MaximumHealth;
   }
 }

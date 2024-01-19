@@ -32,4 +32,14 @@ public sealed class Unit : Placeable, IDamageable, IDamager
       _currentHealth = value;
     }
   }
+
+  /// <inheritdoc/>
+  public override Unit Copy()
+  {
+    return new Unit(Name, Power, MaximumHealth, Cost, Region)
+    {
+      PassiveEffects = PassiveEffects,
+      CurrentHealth = CurrentHealth
+    };
+  }
 }

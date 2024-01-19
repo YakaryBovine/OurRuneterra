@@ -5,12 +5,13 @@ namespace OurRuneterra.Core.Tests.TestHelpers;
 public static class Utils
 {
   /// <summary>
-  /// Creates and starts a <see cref="Game"/> with two players.
+  /// Creates and starts a valid, playable <see cref="Game"/>.
   /// </summary>
-  public static Game StartSimpleGame()
+  /// <param name="players">If provided, these will be the players in the game. If not, two players will be created.</param>
+  public static Game StartSimpleGame(List<Player>? players = null)
   {
     var game = new Game();
-    game.Start(new List<Player>
+    game.Start(players ?? new List<Player>
     {
       new()
       {
@@ -35,6 +36,7 @@ public static class Utils
     {
       deck.Add(new Unit("TestUnit", 1, 1, 1, Region.Demacia));
     }
+
     return deck;
   }
 }

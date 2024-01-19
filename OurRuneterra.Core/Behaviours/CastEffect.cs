@@ -2,7 +2,7 @@
 
 namespace OurRuneterra.Core.Behaviours;
 
-public abstract class SpellEffect
+public abstract class CastEffect
 {
   /// <summary>
   /// The condition that needs to be fulfilled for a target of the spell to be valid.

@@ -3,5 +3,7 @@
 public enum Region
 {
   Demacia,
-  Noxus
+  Noxus,
+  Shurima,
+  Targon
 }

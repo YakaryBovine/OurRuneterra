@@ -21,7 +21,7 @@ public sealed class Spell : Card, IDamager
   /// <summary>
   /// Defines the behaviour of the spell.
   /// </summary>
-  public required SpellEffect Effect { get; init; }
+  public required CastEffect CastEffect { get; init; }
 
   /// <summary>
   /// Casts the spell on a number of targets.
@@ -29,9 +29,19 @@ public sealed class Spell : Card, IDamager
   public void Cast(Game game, Player player, Spell spell, List<IDamageable> targets)
   {
     foreach (var target in targets)
-      if (!Effect.TargetCondition(target))
+      if (!CastEffect.TargetCondition(target))
         throw new InvalidTargetException(target);
       
-    Effect.Result(game, player, spell, targets);
+    CastEffect.Result(game, player, spell, targets);
+  }
+
+  /// <inheritdoc/>
+  public override Spell Copy()
+  {
+    return new Spell(Name, Cost, Region)
+    {
+      PassiveEffects = PassiveEffects,
+      CastEffect = CastEffect
+    };
   }
 }

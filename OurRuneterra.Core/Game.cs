@@ -1,5 +1,6 @@
 ﻿using OurRuneterra.Core.Behaviours;
 using OurRuneterra.Core.Cards;
+using OurRuneterra.Core.Events;
 using OurRuneterra.Core.Exceptions;
 
 namespace OurRuneterra.Core;
@@ -43,6 +44,11 @@ public sealed class Game
   ///   Invoked when a round ends.
   /// </summary>
   internal event EventHandler? RoundEnded;
+  
+  /// <summary>
+  ///   Invoked when a unit is summoned.
+  /// </summary>
+  internal event EventHandler<PlaceableSummonedEventArgs>? UnitSummoned;
 
   /// <summary>
   /// Starts the game, allowing it to be played.
@@ -57,7 +63,7 @@ public sealed class Game
       player.CurrentManaGems = 1;
     
     TurnPlayer = Players.First();
-
+    InitializeCards();
     State = GameState.InProgress;
   }
 
@@ -90,6 +96,8 @@ public sealed class Game
 
     if (!placer.Hand.Contains(card))
       throw new MustPlayFromHandException(card);
+    
+    UnitSummoned?.Invoke(this, new PlaceableSummonedEventArgs(card, placer));
     
     foreach (var keyword in card.Keywords)
       keyword.OnPlayed(this, card);
@@ -164,6 +172,17 @@ public sealed class Game
     }
   }
 
+  /// <summary>
+  /// Initializes all cards in the game, enabling them to perform any setup logic they need to function.
+  /// </summary>
+  private void InitializeCards()
+  {
+    var allCards = Players.SelectMany(x => x.Deck);
+    foreach (var card in allCards)
+      foreach (var passiveEffect in card.PassiveEffects)
+        passiveEffect.OnInitialized(this, card);
+  }
+  
   private void ThrowIfNotState(GameState requiredState)
   {
     if (State != requiredState)

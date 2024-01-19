@@ -12,4 +12,9 @@ public abstract class PassiveEffect
   /// or when the effect is added to a card mid-game.
   /// </summary>
   public abstract void OnInitialized(Game game, Card card);
+
+  /// <summary>
+  /// Invoked when this <see cref="PassiveEffect"/> is permanently removed from the game.
+  /// </summary>
+  public abstract void OnDestroyed(Game game, Card card);
 }

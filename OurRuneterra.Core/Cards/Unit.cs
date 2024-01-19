@@ -34,7 +34,7 @@ public sealed class Unit : Placeable, IDamageable, IDamager
   }
 
   /// <inheritdoc/>
-  public override Unit Copy()
+  internal override Unit Copy()
   {
     return new Unit(Name, Power, MaximumHealth, Cost, Region)
     {

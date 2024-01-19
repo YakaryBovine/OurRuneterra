@@ -31,5 +31,23 @@ public abstract class Card
   /// <summary>
   /// Creates an exact copy of this card.
   /// </summary>
-  public abstract Card Copy();
+  internal abstract Card Copy();
+
+  /// <summary>
+  /// Initialize the card, allowing it to perform any initialization logic it needs.
+  /// </summary>
+  internal void Initialize(Game game)
+  {
+    foreach (var passiveEffect in PassiveEffects)
+      passiveEffect.OnInitialized(game, this);
+  }
+  
+  /// <summary>
+  /// Destroy the card, allowing it to perform any teardown logic it needs.
+  /// </summary>
+  internal void Destroy(Game game)
+  {
+    foreach (var passiveEffect in PassiveEffects)
+      passiveEffect.OnDestroyed(game, this);
+  }
 }

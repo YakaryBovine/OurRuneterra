@@ -46,9 +46,9 @@ public sealed class Game
   internal event EventHandler? RoundEnded;
   
   /// <summary>
-  ///   Invoked when a unit is summoned.
+  ///   Invoked when a <see cref="Placeable"/> is summoned.
   /// </summary>
-  internal event EventHandler<PlaceableSummonedEventArgs>? UnitSummoned;
+  internal event EventHandler<PlaceableSummonedEventArgs>? PlaceableSummoned;
 
   /// <summary>
   /// Starts the game, allowing it to be played.
@@ -97,7 +97,7 @@ public sealed class Game
     if (!placer.Hand.Contains(card))
       throw new MustPlayFromHandException(card);
     
-    UnitSummoned?.Invoke(this, new PlaceableSummonedEventArgs(card, placer));
+    PlaceableSummoned?.Invoke(this, new PlaceableSummonedEventArgs(card, placer));
     
     foreach (var keyword in card.Keywords)
       keyword.OnPlayed(this, card);
@@ -179,8 +179,7 @@ public sealed class Game
   {
     var allCards = Players.SelectMany(x => x.Deck);
     foreach (var card in allCards)
-      foreach (var passiveEffect in card.PassiveEffects)
-        passiveEffect.OnInitialized(this, card);
+      card.Initialize(this);
   }
   
   private void ThrowIfNotState(GameState requiredState)

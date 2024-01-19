@@ -36,7 +36,7 @@ public sealed class Spell : Card, IDamager
   }
 
   /// <inheritdoc/>
-  public override Spell Copy()
+  internal override Spell Copy()
   {
     return new Spell(Name, Cost, Region)
     {

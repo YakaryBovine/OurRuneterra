@@ -1,11 +1,11 @@
-﻿using OurRuneterra.Core.Cards;
+﻿using OurRuneterra.Core.Behaviours;
 
-namespace OurRuneterra.Core;
+namespace OurRuneterra.Core.Events;
 
 /// <summary>
 /// An amount of damage that will be dealt from one unit to another.
 /// </summary>
-public sealed class Strike
+public sealed class Damage
 {
   /// <summary>
   /// The amount of damage that will be dealt.
@@ -13,12 +13,12 @@ public sealed class Strike
   public required int Amount { get; set; }
   
   /// <summary>
-  /// The unit doing the striking.
+  /// The thing doing the damaging.
   /// </summary>
-  public required Unit Striker { get; init; }
+  public required IDamager Damager { get; init; }
   
   /// <summary>
-  /// The unit that will be struck.
+  /// The thing that will be damaged.
   /// </summary>
-  public required Unit Victim { get; set; }
+  public required IDamageable Victim { get; set; }
 }

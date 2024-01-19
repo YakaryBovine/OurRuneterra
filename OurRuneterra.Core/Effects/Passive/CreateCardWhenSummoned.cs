@@ -10,7 +10,6 @@ namespace OurRuneterra.Core.Effects.Passive;
 public sealed class CreateCardWhenSummoned : PassiveEffect
 {
   private readonly Card _createdCard;
-  private Card? _effectHolder;
 
   /// <summary>
   /// Initializes a new instance of the <see cref="CreateCardWhenSummoned"/> class.
@@ -24,21 +23,14 @@ public sealed class CreateCardWhenSummoned : PassiveEffect
   /// <inheritdoc/>
   public override void OnInitialized(Game game, Card card)
   {
-    game.PlaceableSummoned += OnSummoned;
-    _effectHolder = card;
+    game.RegisterOnSummonedAction(card as Placeable, @params => OnSummoned(@params, card));
   }
 
-  private void OnSummoned(object? sender, PlaceableSummonedEventArgs args)
+  private void OnSummoned(PlaceableSummonedParams parameters, Card effectHolder)
   {
-    if (args.SummonedPlaceable != _effectHolder)
+    if (parameters.SummonedPlaceable != effectHolder)
       return;
 
-    args.Summoner.Hand.Add(_createdCard.Copy());
-  }
-
-  /// <inheritdoc/>
-  public override void OnDestroyed(Game game, Card card)
-  {
-    game.PlaceableSummoned -= OnSummoned;
+    parameters.Summoner.Hand.Add(_createdCard.Copy());
   }
 }

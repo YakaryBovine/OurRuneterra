@@ -29,11 +29,6 @@ public sealed class Game
   ///   Cards which have been placed on the game board.
   /// </summary>
   internal List<Placeable> Board { get; } = new();
-  
-  /// <summary>
-  ///   Invoked when a unit starts striking. The strike can be modified prior to completion.
-  /// </summary>
-  internal event EventHandler<Strike>? UnitStriking;
 
   /// <summary>
   ///   Invoked when a unit starts damaging. The damage can be modified prior to completion.
@@ -44,12 +39,9 @@ public sealed class Game
   ///   Invoked when a round ends.
   /// </summary>
   internal event EventHandler? RoundEnded;
+    
+  private readonly Dictionary<Placeable, Action<PlaceableSummonedParams>> _onSummonedTriggers = new();
   
-  /// <summary>
-  ///   Invoked when a <see cref="Placeable"/> is summoned.
-  /// </summary>
-  internal event EventHandler<PlaceableSummonedEventArgs>? PlaceableSummoned;
-
   /// <summary>
   /// Starts the game, allowing it to be played.
   /// </summary>
@@ -97,7 +89,8 @@ public sealed class Game
     if (!placer.Hand.Contains(card))
       throw new MustPlayFromHandException(card);
     
-    PlaceableSummoned?.Invoke(this, new PlaceableSummonedEventArgs(card, placer));
+    foreach (var (placeable, summonAction) in _onSummonedTriggers)
+      summonAction.Invoke(new PlaceableSummonedParams(placeable, placer));
     
     foreach (var keyword in card.Keywords)
       keyword.OnPlayed(this, card);
@@ -123,6 +116,14 @@ public sealed class Game
   }
 
   /// <summary>
+  /// Registers an action to occur when a particular <see cref="Placeable"/> is placed on the board.
+  /// </summary>
+  internal void RegisterOnSummonedAction(Placeable placeable, Action<PlaceableSummonedParams> onSummoned)
+  {
+    _onSummonedTriggers.Add(placeable, onSummoned);
+  }
+  
+  /// <summary>
   ///   Causes a <see cref="Unit" /> to strike another, dealing damage equal to the striker's power.
   /// </summary>
   internal void Strike(Unit striker, Unit victim)
@@ -133,8 +134,6 @@ public sealed class Game
       Striker = striker,
       Victim = victim
     };
-
-    UnitStriking?.Invoke(this, strike);
 
     Damage(strike.Striker, strike.Victim, strike.Amount);
   }

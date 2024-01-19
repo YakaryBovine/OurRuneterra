@@ -2,15 +2,15 @@
 
 namespace OurRuneterra.Core.Events;
 
-public sealed class PlaceableSummonedEventArgs : System.EventArgs
+public sealed class PlaceableSummonedParams
 {
-  public PlaceableSummonedEventArgs(Placeable summonedPlaceable, Player summoner)
+  public PlaceableSummonedParams(Placeable summonedPlaceable, Player summoner)
   {
     SummonedPlaceable = summonedPlaceable;
     Summoner = summoner;
   }
 
   public Placeable SummonedPlaceable { get; }
-  
+
   public Player Summoner { get; }
 }

@@ -112,7 +112,9 @@ public sealed class Game
       summonAction.Invoke(new PlaceableSummonedParams(cardToSummon, summoner));
     
     Board.Add(cardToSummon);
-    cardToSummon.Initialize(this);
+    
+    if (!cardToSummon.Initialized)
+      cardToSummon.Initialize(this);
 
     return cardToSummon;
   }

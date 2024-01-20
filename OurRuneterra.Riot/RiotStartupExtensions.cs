@@ -1,16 +1,18 @@
 ﻿using OurRuneterra.Core.Cards;
+using OurRuneterra.Core.Games;
 
 namespace OurRuneterra.Riot;
 
 /// <summary>
 /// Provides all cards from the official Legends of Runeterra game by Riot.
 /// </summary>
-public static class RiotCardProvider
+public static class RiotStartupExtensions
 {
-  public static IEnumerable<Card> GetAllRiotCards(ICollection<CardSet> sets)
+  public static GameStartupOptions AddRiot(this GameStartupOptions options, List<CardSet> sets)
   {
     if (sets.Contains(CardSet.Foundations))
-      foreach (var card in FoundationsCardProvider.GetAllFoundationsCards())
-        yield return card;
+      options.AddFoundations();
+
+    return options;
   }
 }

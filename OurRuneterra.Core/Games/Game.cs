@@ -17,11 +17,10 @@ public sealed class Game
   /// <summary>
   /// Initializes a new instance of the <see cref="Game"/> class.
   /// </summary>
-  /// <param name="cards">All cards in the game. <see cref="Player"/>s can only have <see cref="Card"/>s in their deck
-  /// if they were added here first.</param>
-  public Game(IEnumerable<Card> cards)
+  /// <param name="options">All options used to configure the game.</param>
+  public Game(GameStartupOptions options)
   {
-    _cardsById = cards.ToDictionary(x => x.Id);
+    _cardsById = options.Cards.ToDictionary(x => x.Id);
   }
 
   /// <summary>

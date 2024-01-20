@@ -10,13 +10,17 @@ public sealed class GameTests
   [Fact]
   public void Player_Cant_Have_Card_That_Isnt_In_Game()
   {
-    var game = new Game(new List<Card>
+    var gameOptions = new GameStartupOptions
     {
-      new Unit("Cithria of Cloudfield", 1, 1, 1, Region.Demacia)
+      Cards = new List<Card>
       {
-        Id = "X"
+        new Unit("Cithria of Cloudfield", 1, 1, 1, Region.Demacia)
+        {
+          Id = "X"
+        }
       }
-    });
+    };
+    var game = new Game(gameOptions);
 
     var testPlayers = new List<PlayerDto>
     {
@@ -37,14 +41,18 @@ public sealed class GameTests
   [Fact]
   public void Player_Can_Have_Card_That_Is_In_Game()
   {
-    var game = new Game(new List<Card>
+    var gameOptions = new GameStartupOptions
     {
-      new Unit("Cithria of Cloudfield", 1, 1, 1, Region.Demacia)
+      Cards = new List<Card>
       {
-        Id = "X",
-        Rarity = CardRarity.Common
+        new Unit("Cithria of Cloudfield", 1, 1, 1, Region.Demacia)
+        {
+          Id = "X",
+          Rarity = CardRarity.Common
+        }
       }
-    });
+    };
+    var game = new Game(gameOptions);
 
     var testPlayers = new List<PlayerDto>
     {
@@ -65,14 +73,18 @@ public sealed class GameTests
   [Fact]
   public void Player_Cant_Have_Uncollectible_Card()
   {
-    var game = new Game(new List<Card>
+    var gameOptions = new GameStartupOptions
     {
-      new Unit("Cithria of Cloudfield", 1, 1, 1, Region.Demacia)
+      Cards = new List<Card>
       {
-        Id = "X",
-        Rarity = CardRarity.Uncollectible
+        new Unit("Cithria of Cloudfield", 1, 1, 1, Region.Demacia)
+        {
+          Id = "X",
+          Rarity = CardRarity.Uncollectible
+        }
       }
-    });
+    };
+    var game = new Game(gameOptions);
 
     var testPlayers = new List<PlayerDto>
     {

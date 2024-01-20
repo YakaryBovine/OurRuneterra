@@ -5,8 +5,14 @@ namespace OurRuneterra.Core.Cards;
 
 public abstract class Card
 {
+  /// <summary>
+  /// A flavourful name for the card, which players can read.
+  /// </summary>
   public string Name { get; }
   
+  /// <summary>
+  /// How much mana the card costs to play.
+  /// </summary>
   public int Cost { get; }
 
   /// <summary>
@@ -14,6 +20,9 @@ public abstract class Card
   /// </summary>
   public List<PassiveEffect> PassiveEffects { get; init; } = new();
   
+  /// <summary>
+  /// Where the card is from, which restricts the kinds of mechanics it should have.
+  /// </summary>
   public Region Region { get; }
   
   /// <summary>If true, the card has been initialized and is ready to be used in a game.</summary>

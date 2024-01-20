@@ -1,6 +1,4 @@
-﻿using OurRuneterra.Core.Cards;
-
-namespace OurRuneterra.Core.Exceptions;
+﻿namespace OurRuneterra.Core.Exceptions;
 
 public sealed class InvalidCardIdException : Exception
 {

@@ -24,6 +24,8 @@ public abstract class Card
   /// A unique identifier.
   /// </summary>
   public string Id { get; init; } = "";
+
+  public CardRarity Rarity { get; init; } = CardRarity.Uncollectible;
   
   /// <summary>
   /// A list of effects the card passively performs.

@@ -39,7 +39,8 @@ public sealed class GameTests
     {
       new Unit("Cithria of Cloudfield", 1, 1, 1, Region.Demacia)
       {
-        Id = "X"
+        Id = "X",
+        Rarity = CardRarity.Common
       }
     });
 
@@ -57,5 +58,33 @@ public sealed class GameTests
     };
     
     game.Invoking(x => x.StartMatch(testPlayers)).Should().NotThrow();
+  }
+  
+  [Fact]
+  public void Player_Cant_Have_Uncollectible_Card()
+  {
+    var game = new Game(new List<Card>
+    {
+      new Unit("Cithria of Cloudfield", 1, 1, 1, Region.Demacia)
+      {
+        Id = "X",
+        Rarity = CardRarity.Uncollectible
+      }
+    });
+
+    var testPlayers = new List<PlayerDto>
+    {
+      new()
+      {
+        Name = "TestPlayer",
+        Id = 0,
+        DeckCardIds = new List<string>
+        {
+          "X"
+        }
+      }
+    };
+    
+    game.Invoking(x => x.StartMatch(testPlayers)).Should().Throw<InvalidCardRarityException>();
   }
 }

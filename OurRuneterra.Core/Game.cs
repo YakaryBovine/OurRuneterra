@@ -21,15 +21,12 @@ public sealed class Game
   {
     _cardsById = cards.ToDictionary(x => x.Id);
   }
-  
+
   /// <summary>
   /// Starts a competitive multiplayer match between the provided players.
   /// </summary>
-  public Match StartMatch(ICollection<PlayerDto> players)
+  public Match StartMatch(IEnumerable<PlayerDto> players)
   {
-    foreach (var cardId in players.SelectMany(x => x.DeckCardIds))
-      GetCardFromId(cardId);
-    
     var newMatch = new Match();
     newMatch.Start(players.Select(PlayerDtoToPlayer));
     return newMatch;
@@ -50,6 +47,18 @@ public sealed class Game
     if (!_cardsById.TryGetValue(cardId, out var card))
       throw new InvalidCardIdException(cardId);
 
+    ValidateCard(card);
+
     return card;
+  }
+
+  /// <summary>
+  /// Returns if the card is a valid inclusion in a player's deck.
+  /// </summary>
+  /// <exception cref="InvalidCardRarityException">Thrown if the card is <see cref="CardRarity.Uncollectible"/>.</exception>
+  private static void ValidateCard(Card card)
+  {
+    if (card.Rarity == CardRarity.Uncollectible)
+      throw new InvalidCardRarityException(card);
   }
 }

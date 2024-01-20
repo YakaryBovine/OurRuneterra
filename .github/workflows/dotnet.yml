@@ -1,0 +1,33 @@
+name: .NET
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  Developer-CI:
+    runs-on: ubuntu-latest
+    steps:
+      -   uses: actions/checkout@v3
+      -   name: Setup .NET
+          uses: actions/setup-dotnet@v1
+          with:
+            dotnet-version: 7.0.x
+      -   name: Restore dependencies
+          run: dotnet restore
+      -   name: Build
+          run: dotnet build --no-restore
+      -   name: Test
+          run: dotnet test --no-build --verbosity normal
+      -   name: Inspect code
+          uses: muno92/resharper_inspectcode@1.6.2
+          with:
+            solutionPath: ./OurRuneterra.sln
+            minimumSeverity: error
+            failOnIssue: 1
+            include: |
+              ./OurRuneterra.Core/**
+              ./OurRuneterra.Core.UnitTests/**
+            solutionWideAnalysis: false

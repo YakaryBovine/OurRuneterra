@@ -10,7 +10,7 @@ namespace OurRuneterra.Core;
 /// </summary>
 public sealed class Game
 {
-  private readonly List<Card> _cards;
+  private readonly Dictionary<string, Card> _cardsById;
 
   /// <summary>
   /// Initializes a new instance of the <see cref="Game"/> class.
@@ -19,25 +19,37 @@ public sealed class Game
   /// if they were added here first.</param>
   public Game(IEnumerable<Card> cards)
   {
-    _cards = cards.ToList();
+    _cardsById = cards.ToDictionary(x => x.Id);
   }
   
   /// <summary>
   /// Starts a competitive multiplayer match between the provided players.
   /// </summary>
-  public Match StartMatch(ICollection<Player> players)
+  public Match StartMatch(ICollection<PlayerDto> players)
   {
-    foreach (var card in players.SelectMany(x => x.Deck))
-      ValidateCard(card);
+    foreach (var cardId in players.SelectMany(x => x.DeckCardIds))
+      GetCardFromId(cardId);
     
     var newMatch = new Match();
-    newMatch.Start(players);
+    newMatch.Start(players.Select(PlayerDtoToPlayer));
     return newMatch;
   }
 
-  private void ValidateCard(Card card)
+  private Player PlayerDtoToPlayer(PlayerDto playerDto)
   {
-    if (!_cards.Contains(card))
-      throw new InvalidCardException(card, "it doesn't exist in this game.");
+    return new Player
+    {
+      Name = playerDto.Name,
+      Id = playerDto.Id,
+      Deck = playerDto.DeckCardIds.Select(GetCardFromId).ToList()
+    };
+  }
+
+  private Card GetCardFromId(string cardId)
+  {
+    if (!_cardsById.TryGetValue(cardId, out var card))
+      throw new InvalidCardIdException(cardId);
+
+    return card;
   }
 }

@@ -41,7 +41,8 @@ public sealed class Spell : Card, IDamager
     return new Spell(Name, Cost, Region)
     {
       PassiveEffects = PassiveEffects,
-      CastEffect = CastEffect
+      CastEffect = CastEffect,
+      Id = Id
     };
   }
 }

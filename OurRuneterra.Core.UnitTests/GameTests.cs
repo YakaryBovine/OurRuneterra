@@ -11,22 +11,25 @@ public sealed class GameTests
     var game = new Game(new List<Card>
     {
       new Unit("Cithria of Cloudfield", 1, 1, 1, Region.Demacia)
+      {
+        Id = "X"
+      }
     });
 
-    var testPlayers = new List<Player>
+    var testPlayers = new List<PlayerDto>
     {
       new()
       {
         Name = "TestPlayer",
         Id = 0,
-        Deck = new List<Card>
+        DeckCardIds = new List<string>
         {
-          new Unit("Beans", 1, 1, 1, Region.Demacia)
+          "Y"
         }
       }
     };
     
-    game.Invoking(x => x.StartMatch(testPlayers)).Should().Throw<InvalidCardException>();
+    game.Invoking(x => x.StartMatch(testPlayers)).Should().Throw<InvalidCardIdException>();
   }
   
   [Fact]
@@ -35,17 +38,20 @@ public sealed class GameTests
     var game = new Game(new List<Card>
     {
       new Unit("Cithria of Cloudfield", 1, 1, 1, Region.Demacia)
+      {
+        Id = "X"
+      }
     });
 
-    var testPlayers = new List<Player>
+    var testPlayers = new List<PlayerDto>
     {
       new()
       {
         Name = "TestPlayer",
         Id = 0,
-        Deck = new List<Card>
+        DeckCardIds = new List<string>
         {
-          new Unit("Cithria of Cloudfield", 1, 1, 1, Region.Demacia)
+          "X"
         }
       }
     };

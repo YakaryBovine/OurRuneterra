@@ -39,7 +39,8 @@ public sealed class Unit : Placeable, IDamageable, IDamager
     return new Unit(Name, Power, MaximumHealth, Cost, Region)
     {
       PassiveEffects = PassiveEffects,
-      CurrentHealth = CurrentHealth
+      CurrentHealth = CurrentHealth,
+      Id = Id
     };
   }
 }

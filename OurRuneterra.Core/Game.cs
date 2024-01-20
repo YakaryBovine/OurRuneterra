@@ -236,6 +236,8 @@ public sealed class Game
     
     if (card is Placeable placeable)
       _onSummonedActions.Remove(placeable);
+
+    card.Initialized = false;
   }
   
   /// <summary>

@@ -17,7 +17,7 @@ public abstract class Card
   public Region Region { get; }
   
   /// <summary>If true, the card has been initialized and is ready to be used in a game.</summary>
-  public bool Initialized { get; private set; }
+  public bool Initialized { get; internal set; }
 
   protected Card(string name, int cost, Region region)
   {

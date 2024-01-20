@@ -1,4 +1,4 @@
-﻿namespace OurRuneterra.Core;
+﻿namespace OurRuneterra.Core.Players;
 
 public sealed class PlayerDto
 {

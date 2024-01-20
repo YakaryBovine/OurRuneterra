@@ -1,6 +1,7 @@
 ﻿using OurRuneterra.Core.Cards;
+using OurRuneterra.Core.Matches;
 
-namespace OurRuneterra.Core;
+namespace OurRuneterra.Core.Players;
 
 /// <summary>
 /// Someone who is playing a Legends of Runeterra <see cref="Match"/>.

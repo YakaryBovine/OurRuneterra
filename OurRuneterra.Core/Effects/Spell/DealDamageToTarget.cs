@@ -1,5 +1,7 @@
 ﻿using OurRuneterra.Core.Behaviours;
 using OurRuneterra.Core.Cards;
+using OurRuneterra.Core.Matches;
+using OurRuneterra.Core.Players;
 
 namespace OurRuneterra.Core.Effects.Spell;
 

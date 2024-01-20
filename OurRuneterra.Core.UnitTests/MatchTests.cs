@@ -1,5 +1,6 @@
 ﻿using OurRuneterra.Core.Cards;
 using OurRuneterra.Core.Exceptions;
+using OurRuneterra.Core.Matches;
 using OurRuneterra.Core.Tests.TestHelpers;
 
 namespace OurRuneterra.Core.Tests;

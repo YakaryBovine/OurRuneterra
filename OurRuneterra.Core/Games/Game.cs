@@ -1,7 +1,9 @@
 ﻿using OurRuneterra.Core.Cards;
 using OurRuneterra.Core.Exceptions;
+using OurRuneterra.Core.Matches;
+using OurRuneterra.Core.Players;
 
-namespace OurRuneterra.Core;
+namespace OurRuneterra.Core.Games;
 
 /// <summary>
 /// An entire Legends of Runeterra game server, consisting of all cards that are valid for players to include

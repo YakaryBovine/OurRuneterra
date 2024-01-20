@@ -1,4 +1,4 @@
-﻿namespace OurRuneterra.Core;
+﻿namespace OurRuneterra.Core.Matches;
 
 public enum MatchState
 {

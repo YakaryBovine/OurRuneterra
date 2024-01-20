@@ -1,6 +1,7 @@
 ﻿using OurRuneterra.Core.Behaviours;
 using OurRuneterra.Core.Cards;
 using OurRuneterra.Core.Effects.Passive;
+using OurRuneterra.Core.Players;
 using OurRuneterra.Core.Tests.TestHelpers;
 
 namespace OurRuneterra.Core.Tests;

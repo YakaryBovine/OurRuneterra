@@ -1,5 +1,7 @@
 ﻿using OurRuneterra.Core.Cards;
 using OurRuneterra.Core.Exceptions;
+using OurRuneterra.Core.Games;
+using OurRuneterra.Core.Players;
 
 namespace OurRuneterra.Core.Tests;
 

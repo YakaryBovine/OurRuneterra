@@ -1,4 +1,6 @@
-﻿namespace OurRuneterra.Core.Exceptions;
+﻿using OurRuneterra.Core.Matches;
+
+namespace OurRuneterra.Core.Exceptions;
 
 public sealed class WrongMatchStateException : Exception
 {

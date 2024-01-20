@@ -2,8 +2,9 @@
 using OurRuneterra.Core.Cards;
 using OurRuneterra.Core.Events;
 using OurRuneterra.Core.Exceptions;
+using OurRuneterra.Core.Players;
 
-namespace OurRuneterra.Core;
+namespace OurRuneterra.Core.Matches;
 
 /// <summary>
 ///   A single game of Legends of Runeterra, which ends when a player wins.

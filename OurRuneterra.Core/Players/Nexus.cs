@@ -1,6 +1,6 @@
 ﻿using OurRuneterra.Core.Behaviours;
 
-namespace OurRuneterra.Core;
+namespace OurRuneterra.Core.Players;
 
 /// <summary>
 /// The part of a player that can be damaged and killed. When a player's nexus is killed, they lose the game.

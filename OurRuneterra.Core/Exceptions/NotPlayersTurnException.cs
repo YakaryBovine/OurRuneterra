@@ -1,4 +1,6 @@
-﻿namespace OurRuneterra.Core.Exceptions;
+﻿using OurRuneterra.Core.Players;
+
+namespace OurRuneterra.Core.Exceptions;
 
 public sealed class NotPlayersTurnException : Exception
 {

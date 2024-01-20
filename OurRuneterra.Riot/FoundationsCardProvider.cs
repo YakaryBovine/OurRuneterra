@@ -12,7 +12,11 @@ public static class FoundationsCardProvider
     yield return new Unit("Cithria of Cloudfield", 2, 2, 1, Region.Demacia)
     {
       Id = "01DE039",
-      Rarity = CardRarity.Common
+      Rarity = CardRarity.Common,
+      Subtypes = new List<CardSubtype>
+      {
+        CardSubtype.Elite
+      }
     };
   }
 }

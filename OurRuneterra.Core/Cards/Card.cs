@@ -28,6 +28,11 @@ public abstract class Card
   public CardRarity Rarity { get; init; } = CardRarity.Uncollectible;
   
   /// <summary>
+  /// Flavourful but mechanically significant extra types this card has.
+  /// </summary>
+  public List<CardSubtype> Subtypes { get; set; }
+  
+  /// <summary>
   /// A list of effects the card passively performs.
   /// </summary>
   public List<PassiveEffect> PassiveEffects { get; init; } = new();

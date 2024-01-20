@@ -1,4 +1,6 @@
-﻿using OurRuneterra.Core.Cards;
+﻿using OurRuneterra.Core.Behaviours;
+using OurRuneterra.Core.Cards;
+using OurRuneterra.Core.Keywords;
 
 namespace OurRuneterra.Riot;
 
@@ -16,6 +18,20 @@ public static class FoundationsCardProvider
       Subtypes = new List<CardSubtype>
       {
         CardSubtype.Elite
+      }
+    };
+
+    yield return new Unit("Garen", 5, 5, 5, Region.Demacia)
+    {
+      Id = "01DE012",
+      Rarity = CardRarity.Champion,
+      Subtypes = new List<CardSubtype>
+      {
+        CardSubtype.Elite
+      },
+      PassiveEffects = new List<PassiveEffect>
+      {
+        new Regeneration()
       }
     };
   }

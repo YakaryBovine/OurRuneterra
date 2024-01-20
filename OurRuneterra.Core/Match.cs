@@ -13,7 +13,7 @@ public sealed class Match
   /// <summary>
   /// The state the game is currently in, which restricts the operations that can be called on it.
   /// </summary>
-  public GameState State { get; private set; } = GameState.NotStarted;
+  public MatchState State { get; private set; } = MatchState.NotStarted;
   
   /// <summary>
   /// The player whos turn it currently is. Only the turn player can take actions.
@@ -35,12 +35,19 @@ public sealed class Match
   private readonly Dictionary<Card, Action<Damage>> _onUnitTakingDamageActions = new();
 
   /// <summary>
+  /// Initializes a new instance of the <see cref="Match"/> class.
+  /// </summary>
+  internal Match()
+  {
+  }
+  
+  /// <summary>
   /// Starts the game, allowing it to be played.
   /// </summary>
   /// <param name="players">All players participating in the game.</param>
   public void Start(IEnumerable<Player> players)
   {
-    ThrowIfNotState(GameState.NotStarted);
+    ThrowIfNotState(MatchState.NotStarted);
     
     Players.AddRange(players);
     foreach (var player in Players) 
@@ -48,7 +55,7 @@ public sealed class Match
     
     TurnPlayer = Players.First();
     InitializeCards();
-    State = GameState.InProgress;
+    State = MatchState.InProgress;
   }
 
   /// <summary>
@@ -56,7 +63,7 @@ public sealed class Match
   /// </summary>
   public void EndRound(Player endingPlayer)
   {
-    ThrowIfNotState(GameState.InProgress);
+    ThrowIfNotState(MatchState.InProgress);
     
     if (endingPlayer != TurnPlayer)
       throw new NotPlayersTurnException(endingPlayer);
@@ -72,7 +79,7 @@ public sealed class Match
   /// </summary>
   public void PlaceCard(Player placer, Placeable card)
   {
-    ThrowIfNotState(GameState.InProgress);
+    ThrowIfNotState(MatchState.InProgress);
     
     if (placer != TurnPlayer)
       throw new NotPlayersTurnException(placer);
@@ -92,7 +99,7 @@ public sealed class Match
   /// </summary>
   public void Cast(Player player, Spell spell, List<IDamageable> targets)
   {
-    ThrowIfNotState(GameState.InProgress);
+    ThrowIfNotState(MatchState.InProgress);
     
     if (player != TurnPlayer)
       throw new NotPlayersTurnException(player);
@@ -250,9 +257,9 @@ public sealed class Match
       card.Initialize(this);
   }
   
-  private void ThrowIfNotState(GameState requiredState)
+  private void ThrowIfNotState(MatchState requiredState)
   {
     if (State != requiredState)
-      throw new WrongGameStateException(requiredState, State);
+      throw new WrongMatchStateException(requiredState, State);
   }
 }

@@ -1,6 +1,6 @@
 ﻿namespace OurRuneterra.Core;
 
-public enum GameState
+public enum MatchState
 {
   NotStarted,
   InProgress,

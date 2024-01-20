@@ -33,7 +33,7 @@ public sealed class PassiveEffectTests
       }
     };
     
-    var game = Utils.StartSimpleGame(new List<Player>
+    var game = Utils.StartSimpleMatch(new List<Player>
     {
       testPlayer
     });

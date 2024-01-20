@@ -5,12 +5,12 @@ namespace OurRuneterra.Core.Tests.TestHelpers;
 public static class Utils
 {
   /// <summary>
-  /// Creates and starts a valid, playable <see cref="Game"/>.
+  /// Creates and starts a valid, playable <see cref="Match"/>.
   /// </summary>
   /// <param name="players">If provided, these will be the players in the game. If not, two players will be created.</param>
-  public static Game StartSimpleGame(List<Player>? players = null)
+  public static Match StartSimpleMatch(List<Player>? players = null)
   {
-    var game = new Game();
+    var game = new Match();
     game.Start(players ?? new List<Player>
     {
       new()

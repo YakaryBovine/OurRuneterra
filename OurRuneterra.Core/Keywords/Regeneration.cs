@@ -14,12 +14,12 @@ public sealed class Regeneration : Keyword
   public override string Description => "Heals fully at the end of each round.";
 
   /// <inheritdoc/>
-  public override void OnInitialized(Game game, Card effectHolder) =>
-    game.RegisterOnRoundEndedAction(effectHolder, () => OnRoundEnded(game, effectHolder));
+  public override void OnInitialized(Match match, Card effectHolder) =>
+    match.RegisterOnRoundEndedAction(effectHolder, () => OnRoundEnded(match, effectHolder));
 
-  private static void OnRoundEnded(Game game, Card holder)
+  private static void OnRoundEnded(Match match, Card holder)
   {
-    if (holder is Unit holdingUnit && game.GetCardLocation(holdingUnit) == CardLocation.Board)
+    if (holder is Unit holdingUnit && match.GetCardLocation(holdingUnit) == CardLocation.Board)
       holdingUnit.CurrentHealth = holdingUnit.MaximumHealth;
   }
 }

@@ -15,9 +15,9 @@ public sealed class Tough : Keyword
   public override string Description => "Takes 1 less damage from all sources.";
 
   /// <inheritdoc/>
-  public override void OnInitialized(Game game, Card effectHolder)
+  public override void OnInitialized(Match match, Card effectHolder)
   {
-    game.RegisterOnUnitTakingDamageAction(effectHolder as Unit, (Damage damage) => { OnUnitTakingDamage(effectHolder, damage); });
+    match.RegisterOnUnitTakingDamageAction(effectHolder as Unit, (Damage damage) => { OnUnitTakingDamage(effectHolder, damage); });
   }
   
   private static void OnUnitTakingDamage(Card effectHolder, Damage damage)

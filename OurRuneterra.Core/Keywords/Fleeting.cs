@@ -9,12 +9,12 @@ public sealed class Fleeting : Keyword
   public override string Description => "Fleeting cards discard from hand when the round ends.";
   
   /// <inheritdoc/>
-  public override void OnInitialized(Game game, Card effectHolder) =>
-    game.RegisterOnRoundEndedAction(effectHolder, () => OnRoundEnded(game, effectHolder));
+  public override void OnInitialized(Match match, Card effectHolder) =>
+    match.RegisterOnRoundEndedAction(effectHolder, () => OnRoundEnded(match, effectHolder));
 
-  private static void OnRoundEnded(Game game, Card holder)
+  private static void OnRoundEnded(Match match, Card holder)
   {
-    if (game.GetCardLocation(holder) == CardLocation.Hand)
-      game.Discard(holder);
+    if (match.GetCardLocation(holder) == CardLocation.Hand)
+      match.Discard(holder);
   }
 }

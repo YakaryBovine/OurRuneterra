@@ -9,7 +9,7 @@ public sealed class GameTests
   [Fact]
   public void Player_With_Enough_Mana_Can_Place_Card()
   {
-    var game = Utils.StartSimpleGame();
+    var game = Utils.StartSimpleMatch();
     var testPlayer = game.Players.First();
     testPlayer.MaximumManaGems = 10;
     testPlayer.CurrentManaGems = 10;
@@ -24,7 +24,7 @@ public sealed class GameTests
   [Fact]
   public void Placing_Card_Removes_Card_From_Hand()
   {
-    var game = Utils.StartSimpleGame();
+    var game = Utils.StartSimpleMatch();
     var testPlayer = game.Players.First();
     var testCard = new Unit("Testcard", 1, 1, 1, Region.Demacia);
     testPlayer.Hand.Add(testCard);
@@ -37,7 +37,7 @@ public sealed class GameTests
   [Fact]
   public void Cards_Cant_Be_Placed_From_Outside_Hand()
   {
-    var game = Utils.StartSimpleGame();
+    var game = Utils.StartSimpleMatch();
     var testPlayer = game.Players.First();
     var testCard = new Unit("Testcard", 1, 1, 1, Region.Demacia);
 
@@ -47,7 +47,7 @@ public sealed class GameTests
   [Fact]
   public void Player_With_Insufficient_Mana_Cannot_Place_Card()
   {
-    var game = Utils.StartSimpleGame();
+    var game = Utils.StartSimpleMatch();
     var testPlayer = game.Players.First();
     var expensiveCard = new Unit("Expensive Card", 5, 5, 10, Region.Demacia);
     
@@ -59,7 +59,7 @@ public sealed class GameTests
   [Fact]
   public void Round_Starting_Causes_Players_To_Refill_Mana_Gems()
   {
-    var game = Utils.StartSimpleGame();
+    var game = Utils.StartSimpleMatch();
     var testPlayer = game.Players.First();
     testPlayer.MaximumManaGems = 5;
     testPlayer.Deck.Add(new Unit("TestCard", 1, 1, 1, Region.Demacia));
@@ -72,7 +72,7 @@ public sealed class GameTests
   [Fact]
   public void Round_Starting_Causes_Players_To_Gain_A_Mana_Gem()
   {
-    var game = Utils.StartSimpleGame();
+    var game = Utils.StartSimpleMatch();
     var testPlayer = game.Players.First();
     testPlayer.MaximumManaGems = 5;
     
@@ -84,7 +84,7 @@ public sealed class GameTests
   [Fact]
   public void Round_Starting_Causes_Players_To_Draw_A_Card()
   {
-    var game = Utils.StartSimpleGame();
+    var game = Utils.StartSimpleMatch();
     var testPlayer = game.Players.First();
     testPlayer.MaximumManaGems = 5;
     testPlayer.Deck.Add(new Unit("TestCard", 1, 1, 1, Region.Demacia));
@@ -97,7 +97,7 @@ public sealed class GameTests
   [Fact]
   public void Striking_Reduces_Health_Equal_To_Strikers_Power()
   {
-    var game = new Game();
+    var game = new Match();
     var striker = new Unit("Cithria of Cloudfield", 2, 2, 1, Region.Demacia);
     var victim = new Unit("Vanguard Lookout", 1, 4, 2, Region.Demacia);
     
@@ -109,7 +109,7 @@ public sealed class GameTests
   [Fact]
   public void Damaging_Reduces_Health_Equal_To_Damage()
   {
-    var game = new Game();
+    var game = new Match();
     var damager = new Unit("Cithria of Cloudfield", 2, 2, 1, Region.Demacia);
     var victim = new Unit("Vanguard Lookout", 1, 4, 2, Region.Demacia);
     

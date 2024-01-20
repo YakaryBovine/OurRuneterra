@@ -12,5 +12,5 @@ public abstract class CastEffect
   /// <summary>
   /// What happens when the spell is cast.
   /// </summary>
-  public abstract void Result(Game game, Player player, Spell castedSpell, List<IDamageable> damageables);
+  public abstract void Result(Match match, Player player, Spell castedSpell, List<IDamageable> damageables);
 }

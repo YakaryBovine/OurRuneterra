@@ -26,13 +26,13 @@ public sealed class Spell : Card, IDamager
   /// <summary>
   /// Casts the spell on a number of targets.
   /// </summary>
-  public void Cast(Game game, Player player, Spell spell, List<IDamageable> targets)
+  public void Cast(Match match, Player player, Spell spell, List<IDamageable> targets)
   {
     foreach (var target in targets)
       if (!CastEffect.TargetCondition(target))
         throw new InvalidTargetException(target);
       
-    CastEffect.Result(game, player, spell, targets);
+    CastEffect.Result(match, player, spell, targets);
   }
 
   /// <inheritdoc/>

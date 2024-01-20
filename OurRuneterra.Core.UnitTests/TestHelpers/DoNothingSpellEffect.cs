@@ -10,7 +10,7 @@ public sealed class DoNothingSpellEffect : CastEffect
 {
   public override bool TargetCondition(IDamageable damageable) => true;
 
-  public override void Result(Game game, Player player, Spell castedSpell, List<IDamageable> damageables)
+  public override void Result(Match match, Player player, Spell castedSpell, List<IDamageable> damageables)
   {
   }
 }

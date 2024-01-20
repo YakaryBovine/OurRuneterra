@@ -10,7 +10,7 @@ public sealed class RegenerationTests
   [Fact]
   public void Regeneration_Unit_On_Board_Heals_At_End_Of_Round()
   {
-    var game = Utils.StartSimpleGame();
+    var game = Utils.StartSimpleMatch();
     var testPlayer = game.Players.First();
     var regenerationUnit = game.Summon(testPlayer, new Unit("Cithria of Cloudfield", 2, 2, 0, Region.Demacia)
     {
@@ -37,7 +37,7 @@ public sealed class RegenerationTests
         new Regeneration()
       }
     };
-    var game = Utils.StartSimpleGame();
+    var game = Utils.StartSimpleMatch();
     var testPlayer = game.Players.First();
     game.CreateInHand(testPlayer, regenerationUnit);
 

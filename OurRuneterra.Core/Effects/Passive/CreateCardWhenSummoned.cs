@@ -21,9 +21,9 @@ public sealed class CreateCardWhenSummoned : PassiveEffect
   }
 
   /// <inheritdoc/>
-  public override void OnInitialized(Game game, Card effectHolder)
+  public override void OnInitialized(Match match, Card effectHolder)
   {
-    game.RegisterOnSummonedAction(effectHolder as Placeable, @params => OnSummoned(@params, effectHolder));
+    match.RegisterOnSummonedAction(effectHolder as Placeable, @params => OnSummoned(@params, effectHolder));
   }
 
   private void OnSummoned(PlaceableSummonedParams parameters, Card effectHolder)

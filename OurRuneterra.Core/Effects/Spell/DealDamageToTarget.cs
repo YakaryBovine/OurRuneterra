@@ -19,11 +19,11 @@ public sealed class DealDamageToTarget : CastEffect
   public override bool TargetCondition(IDamageable target) => target is Unit;
 
   /// <inheritdoc/>
-  public override void Result(Game game, Player player, Cards.Spell castedSpell, List<IDamageable> targets)
+  public override void Result(Match match, Player player, Cards.Spell castedSpell, List<IDamageable> targets)
   {
     foreach (var target in targets)
     {
-      game.Damage(castedSpell, target, _damageAmount);
+      match.Damage(castedSpell, target, _damageAmount);
     }
   }
 }

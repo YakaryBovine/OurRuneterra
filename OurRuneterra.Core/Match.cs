@@ -8,7 +8,7 @@ namespace OurRuneterra.Core;
 /// <summary>
 ///   A single game of Legends of Runeterra, which ends when a player wins.
 /// </summary>
-public sealed class Game
+public sealed class Match
 {
   /// <summary>
   /// The state the game is currently in, which restricts the operations that can be called on it.

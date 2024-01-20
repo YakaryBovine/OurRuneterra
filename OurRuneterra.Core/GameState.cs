@@ -4,5 +4,5 @@ public enum GameState
 {
   NotStarted,
   InProgress,
-  Finished
+  MatchState
 }

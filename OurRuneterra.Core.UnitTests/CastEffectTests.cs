@@ -10,7 +10,7 @@ public sealed class CastEffectTests
   [Fact]
   public void DealDamageToTarget_Deals_Damage_To_Target()
   {
-    var game = Utils.StartSimpleGame();
+    var game = Utils.StartSimpleMatch();
     var bladesEdge = new Spell("Blade's Edge", 1, Region.Noxus)
     {
       CastEffect = new DealDamageToTarget(1)

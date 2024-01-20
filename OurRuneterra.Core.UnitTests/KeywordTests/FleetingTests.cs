@@ -10,7 +10,7 @@ public sealed class FleetingTests
   [Fact]
   public void Fleeting_Card_In_Hand_Should_Discard_At_Round_End()
   {
-    var game = Utils.StartSimpleGame();
+    var game = Utils.StartSimpleMatch();
     var testPlayer = game.Players.First();
     var fleetingCard = game.CreateInHand(testPlayer, new Unit("Cithria of Cloudfield", 2, 2, 0, Region.Demacia)
     {

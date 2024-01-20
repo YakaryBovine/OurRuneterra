@@ -3,7 +3,7 @@
 namespace OurRuneterra.Core;
 
 /// <summary>
-/// Someone who is playing a Legends of Runeterra <see cref="Game"/>.
+/// Someone who is playing a Legends of Runeterra <see cref="Match"/>.
 /// </summary>
 public sealed class Player
 {

@@ -35,13 +35,13 @@ public abstract class Card
   /// Initialize the card, allowing it to perform any initialization logic it needs.
   /// <para>Should only be run once, and only when the game starts.</para>
   /// </summary>
-  internal void Initialize(Game game)
+  internal void Initialize(Match match)
   {
     if (Initialized)
       throw new CardAlreadyInitialized(this);
     
     foreach (var passiveEffect in PassiveEffects)
-      passiveEffect.OnInitialized(game, this);
+      passiveEffect.OnInitialized(match, this);
 
     Initialized = true;
   }

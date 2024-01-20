@@ -10,7 +10,7 @@ public sealed class ToughTests
   [Fact]
   public void Tough_Unit_Takes_One_Less_Damage()
   {
-    var game = Utils.StartSimpleGame();
+    var game = Utils.StartSimpleMatch();
     var testPlayer = game.Players.First();
     var damager = game.Summon(testPlayer, new Unit("Cithria of Cloudfield", 2, 2, 0, Region.Demacia)) as Unit;
     var victim = game.Summon(testPlayer, new Unit("Vanguard Defender", 2, 2, 0, Region.Demacia)

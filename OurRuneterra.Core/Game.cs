@@ -122,10 +122,25 @@ public sealed class Game
   /// <summary>
   /// Creates a card directly in the player's hand.
   /// </summary>
-  internal void CreateInHand(Player player, Card card)
+  internal Card CreateInHand(Player player, Card card)
   {
     card.Initialize(this);
     player.Hand.Add(card);
+    return card;
+  }
+
+  /// <summary>
+  /// Discards a card from a player's hand.
+  /// </summary>
+  internal void Discard(Card card)
+  {
+    var owningPlayer = Players.FirstOrDefault(x => x.Hand.Contains(card));
+    
+    if (owningPlayer == null)
+      throw new InvalidOperationException($"No player has {card.Name} in their hand.");
+
+    owningPlayer.Hand.Remove(card);
+    UninitializeCard(card);
   }
   
   /// <summary>
@@ -211,6 +226,18 @@ public sealed class Game
     }
   }
 
+  /// <summary>
+  /// Uninitializes the card, permanently disabling its functionality in the game.
+  /// </summary>
+  private void UninitializeCard(Card card)
+  {
+    _onRoundEndedActions.Remove(card);
+    _onUnitTakingDamageActions.Remove(card);
+    
+    if (card is Placeable placeable)
+      _onSummonedActions.Remove(placeable);
+  }
+  
   /// <summary>
   /// Initializes all cards in the game, enabling them to perform any setup logic they need to function.
   /// </summary>

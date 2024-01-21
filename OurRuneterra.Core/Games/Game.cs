@@ -67,9 +67,13 @@ public sealed class Game
   /// Returns if the card is a valid inclusion in a player's deck.
   /// </summary>
   /// <exception cref="InvalidCardRarityException">Thrown if the card is <see cref="CardRarity.Uncollectible"/>.</exception>
-  private static void ValidateCard(Card card)
+  private void ValidateCard(Card card)
   {
     if (card.Rarity == CardRarity.Uncollectible)
       throw new InvalidCardRarityException(card);
+    
+    foreach (var cardSubtype in card.Subtypes)
+      if (!_cardSubtypesById.ContainsKey(cardSubtype.Name))
+        throw new InvalidCardSubtypeException(cardSubtype);
   }
 }

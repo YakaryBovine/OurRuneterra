@@ -1,5 +1,4 @@
-﻿using OurRuneterra.Core.Cards;
-using OurRuneterra.Core.Games;
+﻿using OurRuneterra.Core.Games;
 
 namespace OurRuneterra.Riot.StartupExtensions;
 
@@ -8,11 +7,9 @@ namespace OurRuneterra.Riot.StartupExtensions;
 /// </summary>
 public static class RiotStartupExtensions
 {
-  public static GameStartupOptions AddRiot(this GameStartupOptions options, List<CardSet> sets)
+  public static GameStartupOptions AddRiot(this GameStartupOptions options)
   {
-    if (sets.Contains(CardSet.Foundations))
-      options.AddFoundations();
-
-    return options;
+    return options
+      .AddFoundations();
   }
 }

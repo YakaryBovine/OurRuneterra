@@ -10,18 +10,11 @@ public static class FoundationsStartupExtensions
 {
   public static GameStartupOptions AddFoundations(this GameStartupOptions options)
   {
+    var eliteSubtype = new CardSubtype(RiotCardSubtypes.Elite);
+    
     options.CardSubtypes.AddRange(new List<CardSubtype>
     {
-      new(RiotCardSubtypes.Elite),
-      new(RiotCardSubtypes.Yordle),
-      new(RiotCardSubtypes.Bird),
-      new(RiotCardSubtypes.Spider),
-      new(RiotCardSubtypes.Poro),
-      new(RiotCardSubtypes.Dog),
-      new(RiotCardSubtypes.Cat),
-      new(RiotCardSubtypes.Elnuk),
-      new(RiotCardSubtypes.Yeti),
-      new(RiotCardSubtypes.Dragon)
+      eliteSubtype
     });
     
     options.Cards.AddRange(new List<Card>
@@ -32,7 +25,7 @@ public static class FoundationsStartupExtensions
         Rarity = CardRarity.Common,
         Subtypes = new List<CardSubtype>
         {
-          CardSubtype.Elite
+          eliteSubtype
         }
       }
     });

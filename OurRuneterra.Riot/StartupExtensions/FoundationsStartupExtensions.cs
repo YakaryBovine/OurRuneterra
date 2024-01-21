@@ -1,5 +1,7 @@
-﻿using OurRuneterra.Core.Cards;
+﻿using OurRuneterra.Core.Behaviours;
+using OurRuneterra.Core.Cards;
 using OurRuneterra.Core.Games;
+using OurRuneterra.Core.Keywords;
 
 namespace OurRuneterra.Riot.StartupExtensions;
 
@@ -11,10 +13,12 @@ public static class FoundationsStartupExtensions
   public static GameStartupOptions AddFoundations(this GameStartupOptions options)
   {
     var eliteSubtype = new CardSubtype(RiotCardSubtypes.Elite);
+    var poroSubtype = new CardSubtype(RiotCardSubtypes.Poro);
     
     options.CardSubtypes.AddRange(new List<CardSubtype>
     {
-      eliteSubtype
+      eliteSubtype,
+      poroSubtype
     });
     
     options.Cards.AddRange(new List<Card>
@@ -26,6 +30,19 @@ public static class FoundationsStartupExtensions
         Subtypes = new List<CardSubtype>
         {
           eliteSubtype
+        }
+      },
+      new Unit("Plucky Poro", 1, 1, 1, Region.Demacia)
+      {
+        Id = "01DE049",
+        Rarity = CardRarity.Common,
+        Subtypes = new List<CardSubtype>
+        {
+          poroSubtype
+        },
+        PassiveEffects = new List<PassiveEffect>
+        {
+          new Tough()
         }
       }
     });

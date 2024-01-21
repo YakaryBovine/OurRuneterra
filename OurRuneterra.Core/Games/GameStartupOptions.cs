@@ -11,4 +11,9 @@ public sealed class GameStartupOptions
   /// All cards that should exist in the game.
   /// </summary>
   public List<Card> Cards = new();
+
+  /// <summary>
+  /// All subtypes that should exist in the game.
+  /// </summary>
+  public List<CardSubtype> CardSubtypes = new();
 }

@@ -13,6 +13,7 @@ namespace OurRuneterra.Core.Games;
 public sealed class Game
 {
   private readonly Dictionary<string, Card> _cardsById;
+  private readonly Dictionary<string, CardSubtype> _cardSubtypesById;
 
   /// <summary>
   /// Initializes a new instance of the <see cref="Game"/> class.
@@ -21,6 +22,7 @@ public sealed class Game
   public Game(GameStartupOptions options)
   {
     _cardsById = options.Cards.ToDictionary(x => x.Id);
+    _cardSubtypesById = options.CardSubtypes.ToDictionary(x => x.Name);
   }
 
   /// <summary>
@@ -51,6 +53,14 @@ public sealed class Game
     ValidateCard(card);
 
     return card;
+  }
+  
+  private CardSubtype GetCardSubtypeFromId(string cardSubtypeId)
+  {
+    if (!_cardSubtypesById.TryGetValue(cardSubtypeId, out var cardSubtype))
+      throw new InvalidCardIdException(cardSubtypeId);
+
+    return cardSubtype;
   }
 
   /// <summary>

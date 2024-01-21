@@ -1,7 +1,7 @@
 ﻿using OurRuneterra.Core.Cards;
 using OurRuneterra.Core.Games;
 
-namespace OurRuneterra.Riot;
+namespace OurRuneterra.Riot.StartupExtensions;
 
 /// <summary>
 /// Provides all cards from the official Legends of Runeterra game by Riot.

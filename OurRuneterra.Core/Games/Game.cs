@@ -21,8 +21,11 @@ public sealed class Game
   /// <param name="options">All options used to configure the game.</param>
   public Game(GameStartupOptions options)
   {
-    _cardsById = options.Cards.ToDictionary(x => x.Id);
     _cardSubtypesById = options.CardSubtypes.ToDictionary(x => x.Name);
+    _cardsById = options.Cards.ToDictionary(x => x.Id);
+
+    foreach (var card in options.Cards) 
+      ValidateGameCard(card);
   }
 
   /// <summary>
@@ -50,30 +53,29 @@ public sealed class Game
     if (!_cardsById.TryGetValue(cardId, out var card))
       throw new InvalidCardIdException(cardId);
 
-    ValidateCard(card);
+    ValidateDeckCard(card);
 
     return card;
   }
-  
-  private CardSubtype GetCardSubtypeFromId(string cardSubtypeId)
+
+  /// <summary>
+  /// Returns true if the card is a valid inclusion in the game.
+  /// </summary>
+  /// <exception cref="InvalidCardSubtypeException">Thrown if the card has a nonexistent subtype.</exception>
+  private void ValidateGameCard(Card card)
   {
-    if (!_cardSubtypesById.TryGetValue(cardSubtypeId, out var cardSubtype))
-      throw new InvalidCardIdException(cardSubtypeId);
-
-    return cardSubtype;
+    foreach (var cardSubtype in card.Subtypes)
+      if (!_cardSubtypesById.ContainsKey(cardSubtype.Name))
+        throw new InvalidCardSubtypeException(cardSubtype);
   }
-
+  
   /// <summary>
   /// Returns if the card is a valid inclusion in a player's deck.
   /// </summary>
   /// <exception cref="InvalidCardRarityException">Thrown if the card is <see cref="CardRarity.Uncollectible"/>.</exception>
-  private void ValidateCard(Card card)
+  private static void ValidateDeckCard(Card card)
   {
     if (card.Rarity == CardRarity.Uncollectible)
       throw new InvalidCardRarityException(card);
-    
-    foreach (var cardSubtype in card.Subtypes)
-      if (!_cardSubtypesById.ContainsKey(cardSubtype.Name))
-        throw new InvalidCardSubtypeException(cardSubtype);
   }
 }

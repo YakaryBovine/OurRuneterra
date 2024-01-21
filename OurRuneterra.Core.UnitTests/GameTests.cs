@@ -101,4 +101,53 @@ public sealed class GameTests
     
     game.Invoking(x => x.StartMatch(testPlayers)).Should().Throw<InvalidCardRarityException>();
   }
+  
+  [Fact]
+  public void Game_Can_Have_Card_With_Registered_Subtype()
+  {
+    var eliteSubtype = new CardSubtype("Elite");
+    var gameOptions = new GameStartupOptions
+    {
+      CardSubtypes = new List<CardSubtype>
+      {
+        eliteSubtype
+      },
+      Cards = new List<Card>
+      {
+        new Unit("Cithria of Cloudfield", 1, 1, 1, Region.Demacia)
+        {
+          Id = "X",
+          Rarity = CardRarity.Common,
+          Subtypes = new List<CardSubtype>
+          {
+            eliteSubtype
+          }
+        }
+      }
+    };
+    var newGame = () => new Game(gameOptions);
+    newGame.Should().NotThrow();
+  }
+  
+  [Fact]
+  public void Game_Cant_Have_Card_With_Unregistered_Subtype()
+  {
+    var gameOptions = new GameStartupOptions
+    {
+      Cards = new List<Card>
+      {
+        new Unit("Cithria of Cloudfield", 1, 1, 1, Region.Demacia)
+        {
+          Id = "X",
+          Rarity = CardRarity.Common,
+          Subtypes = new List<CardSubtype>
+          {
+            new ("Elite")
+          }
+        }
+      }
+    };
+    var newGame = () => new Game(gameOptions);
+    newGame.Should().Throw<InvalidCardSubtypeException>();
+  }
 }
